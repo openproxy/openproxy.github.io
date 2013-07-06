@@ -105,6 +105,9 @@ module.exports = (grunt) ->
         [shell, path] = [require('shelljs'), require('path')]
         return grunt.fatal '"git" needs to be available on the PATH in order to proceed.' unless shell.which 'git'
         releaseBuild = path.resolve 'target/.tmp'
+        packageVersion = grunt.config.get('pkg').version
+        gitBranch = shell.exec('git rev-parse --abbrev-ref HEAD', silent: true).output.trim()
+        gitRevision = shell.exec('git rev-list HEAD --max-count=1', silent: true).output.trim()
         shell.config.fatal = true
         shell.rm '-rf', 'target/master'
         shell.exec 'git clone -b master https://github.com/openproxy/openproxy.github.io.git target/master', silent: true
@@ -112,11 +115,8 @@ module.exports = (grunt) ->
         shell.exec 'git rm -rq ./*'
         shell.cp '-r', "#{releaseBuild}/*", './'
         shell.exec 'git add --all'
-        packageVersion = grunt.config.get('pkg').version
-        gitBranch = shell.exec('git rev-parse --abbrev-ref HEAD', silent: true).output.trim()
-        gitRevision = shell.exec('git rev-list HEAD --max-count=1', silent: true).output.trim()
         shell.exec "git commit -m '#{packageVersion} of #{gitBranch}/#{gitRevision}'"
-        if grunt.option('push') is 'true'
+        if grunt.option('push') is true
             shell.exec 'git push'
         else
             grunt.log.writeln '"git push" skipped due to unspecified --push=true'
