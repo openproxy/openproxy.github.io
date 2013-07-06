@@ -102,14 +102,15 @@ module.exports = (grunt) ->
     grunt.registerTask 'release', ['clean', 'compile', 'copy', 'min']
 
     grunt.registerTask 'deploy', 'Deploy to GitHub Pages', ->
-        shell = require 'shelljs'
+        [shell, path] = [require('shelljs'), require('path')]
         return grunt.fatal '"git" needs to be available on the PATH in order to proceed.' unless shell.which 'git'
+        releaseBuild = path.resolve 'target/.tmp'
         shell.config.fatal = true
         shell.rm '-rf', 'target/master'
         shell.exec 'git clone -b master https://github.com/openproxy/openproxy.github.io.git target/master', silent: true
         shell.cd 'target/master'
         shell.exec 'git rm -rq ./*'
-        shell.cp '-r', "#{require('path').resolve 'target/.tmp' }/*", './'
+        shell.cp '-r', "#{releaseBuild}/*", './'
         shell.exec 'git add --all'
         packageVersion = grunt.config.get('pkg').version
         gitBranch = shell.exec('git rev-parse --abbrev-ref HEAD', silent: true).output.trim()
