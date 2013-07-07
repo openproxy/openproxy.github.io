@@ -4,7 +4,12 @@
     https://github.com/openproxy/openproxy.github.io
 ###
 
-google.maps.event.addDomListener window, 'load', () ->
+$.getWithYQL = (url, callback) ->
+    query = encodeURIComponent("select * from html where url=\"#{url}\"")
+    $.getJSON "//query.yahooapis.com/v1/public/yql?q=#{query}&format=xml&callback=?", (response) ->
+        callback response.results?[0]
+
+google.maps.event.addDomListener window, 'load', ->
     google.maps.visualRefresh = true
     hidden = (feature) ->
         featureType: feature,
@@ -48,10 +53,10 @@ google.maps.event.addDomListener window, 'load', () ->
         deferredCountry = findCountry(event.latLng).done (country) ->
             countryCode = country.address_components[0].short_name
             url = "http://www.xroxy.com/proxylist.php?type=transparent&country=#{countryCode}&sort=latency"
-            deferredProxyCollection = $.get url, (data) ->
+            deferredProxyCollection = $.getWithYQL url, (data) ->
                 # won't work on IE, http://goo.gl/sF8j4
                 proxyCollection = []
-                $response = $((new DOMParser()).parseFromString(data.responseText, 'text/xml'))
+                $response = $((new DOMParser()).parseFromString(data ? '', 'text/xml'))
                 $('.row0, .row1', $response).each ->
                     tdl = $(this).find('td a')
                     proxyCollection.push
