@@ -24,17 +24,15 @@ google.maps.event.addDomListener window, 'load', () ->
             hidden('poi')
             hidden('transit')
         ]
-    google.maps.event.addListener map, 'zoom_changed', ((min, max) ->
-        return ->
-            zoom = map.getZoom()
-            if zoom < min then map.setZoom(min)
-            else if zoom > max then map.setZoom(max)
-    )(3, 6)
-    veil = (->
-        $veil = $('<div class="veil" style="display: none"></div>').appendTo($(document.body))
+    google.maps.event.addListener map, 'zoom_changed', do (min = 3, max = 6) -> ->
+        zoom = map.getZoom()
+        if zoom < min then map.setZoom(min)
+        else if zoom > max then map.setZoom(max)
+    veil = do ->
+        $veil = $('<div class="veil" style="display: none"><div class="center"></div></div>').appendTo($(document.body))
+        new Spinner(lines: 13, length: 0, radius: 60, trail: 60).spin($veil.find('.center')[0])
         (state) ->
             $veil[if state then 'fadeIn' else 'fadeOut']()
-    )()
     geocoder = new google.maps.Geocoder()
     findCountry = (latLng) ->
         deferred = new $.Deferred()
@@ -45,6 +43,7 @@ google.maps.event.addDomListener window, 'load', () ->
         return deferred
     google.maps.event.addListener map, 'click', (event) ->
         map.setCenter(event.latLng)
+        infoWindow.close()
         veil on
         deferredCountry = findCountry(event.latLng).done (country) ->
             countryCode = country.address_components[0].short_name
