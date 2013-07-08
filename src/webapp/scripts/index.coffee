@@ -80,7 +80,7 @@ google.maps.event.addDomListener window, 'load', ->
     proxySwitchEnabled = false
     infoTemplate = (proxies) ->
         if proxies.length is 0
-            '<div>No proxies in this location</div>'
+            '<div class="nobr">No proxies in this location</div>'
         else
             trc = if proxySwitchEnabled then 'proxy-switch' else ''
             "<div class='info-window'>
