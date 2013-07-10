@@ -46,7 +46,7 @@ google.maps.event.addDomListener window, 'load', ->
                 return deferred.resolve(record) for record in records when record.types.indexOf('country') isnt -1
             deferred.reject()
         return deferred
-    google.maps.event.addListener map, 'click', (event) ->
+    mapClickListener = (event) ->
         map.setCenter(event.latLng)
         infoWindow.close()
         veil on
@@ -77,6 +77,11 @@ google.maps.event.addDomListener window, 'load', ->
                 veil off
         deferredCountry.fail ->
             veil off
+    doubleClickCatcher = null
+    google.maps.event.addListener map, 'click', (event) ->
+        doubleClickCatcher = setTimeout((-> mapClickListener(event)), 250)
+    google.maps.event.addListener map, 'dblclick', ->
+        clearTimeout doubleClickCatcher
     proxySwitchEnabled = false
     infoTemplate = (proxies) ->
         if proxies.length is 0
