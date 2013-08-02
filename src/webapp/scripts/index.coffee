@@ -97,7 +97,8 @@ google.maps.event.addDomListener window, 'load', ->
                     <thead><tr><th>Host</th><th>Port</th><th>Type</th></tr></thead>
                     <tbody>
                         #{('<tr class="' + trc + '" data-index="' + i + '">' +
-                            '<td>' + proxy.host + '</td><td>' + proxy.port + '</td><td>' + proxy.type + '</td>' +
+                            '<td>' + proxy.host + '</td><td>&nbsp;&nbsp;' + proxy.port +
+                                '&nbsp;&nbsp;</td><td>' + proxy.type + '</td>' +
                         '</tr>' for proxy, i in proxies).join('')}
                     </tbody>
                 </table>
