@@ -9,6 +9,11 @@ $.getWithYQL = (url, callback) ->
     $.getJSON "//query.yahooapis.com/v1/public/yql?q=#{query}&format=xml&callback=?", (response) ->
         callback response.results?[0]
 
+proxySwitchEnabled = false
+window.addEventListener 'message', (event) ->
+    if event.data.type is 'OP_CHROME_EXTENSION_INITIALIZED'
+        proxySwitchEnabled = true
+
 google.maps.event.addDomListener window, 'load', ->
     google.maps.visualRefresh = true
     hidden = (feature) ->
@@ -82,7 +87,6 @@ google.maps.event.addDomListener window, 'load', ->
         doubleClickCatcher = setTimeout((-> mapClickListener(event)), 250)
     google.maps.event.addListener map, 'dblclick', ->
         clearTimeout doubleClickCatcher
-    proxySwitchEnabled = false
     infoTemplate = (proxies) ->
         if proxies.length is 0
             '<div class="nobr">No proxies in this location</div>'
@@ -107,6 +111,3 @@ google.maps.event.addDomListener window, 'load', ->
         map.setCenter(clientLatLng)
         findCountry(clientLatLng).done (country) ->
             marker.setPosition(country.geometry.location)
-    window.addEventListener 'message', (event) ->
-        if event.data.type is 'OP_CHROME_EXTENSION_INITIALIZED'
-            proxySwitchEnabled = true
