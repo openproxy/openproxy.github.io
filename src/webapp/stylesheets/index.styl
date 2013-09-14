@@ -1,4 +1,11 @@
+*, *:before, *:after
+    -webkit-box-sizing: border-box
+    -moz-box-sizing: border-box
+    box-sizing: border-box
+
 html, body, #map-container
+    font-family: 'Lato', sans-serif
+    font-weight: 300
     margin: 0
     padding: 0
     height: 100%
@@ -40,3 +47,22 @@ html, body, #map-container
 
 .nobr
     white-space: nowrap
+
+.bb-container
+    position: absolute
+    z-index: 9999
+    .bb
+        display: table
+        margin-top: 3px
+        text-align: center
+        padding: 10px
+        border-left: 3px solid #a00
+        background-color: #fff
+
+#logo
+    letter-spacing: 0.3em
+    font-weight: 400
+
+.hint
+    display: block
+    font-size: small
