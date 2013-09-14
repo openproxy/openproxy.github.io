@@ -35,16 +35,18 @@ module.exports = (grunt) ->
                         debug: false
                 files:
                     '<%= project.transient %>/index.html': '<%= project.source %>/index.jade'
-        regarde:
+        watch:
+            options:
+                spawn: false # sacrificing stability for the performance
             coffee:
                 files: '<%= project.source %>/scripts/*.coffee'
-                tasks: ['coffeelint', 'coffee:compile', 'livereload']
+                tasks: ['coffeelint', 'coffee:compile']
             stylus:
                 files: '<%= project.source %>/stylesheets/*.styl'
-                tasks: ['stylus:compile', 'livereload']
+                tasks: ['stylus:compile']
             jade:
                 files: '<%= project.source %>/*.jade'
-                tasks: ['jade:compile', 'livereload']
+                tasks: ['jade:compile']
         connect:
             server:
                 options:
@@ -52,7 +54,9 @@ module.exports = (grunt) ->
                     middleware: (connect) ->
                         path = require 'path'
                         project = grunt.config.get 'project'
-                        connect['static'] path.resolve dir for dir in [project.source, project.transient]
+                        result = [require('connect-livereload')()] # takes care of liverelaod script injection
+                        result.push connect['static'](path.resolve(dir)) for dir in [project.source, project.transient]
+                        return result
         uglify:
             target:
                 options:
@@ -106,8 +110,10 @@ module.exports = (grunt) ->
     grunt.registerTask 'compile', ['coffee:compile', 'stylus:compile', 'jade:compile']
     grunt.registerTask 'min', ['uglify', 'cssmin', 'htmlmin']
 
-    grunt.registerTask 'default', ['clean', 'lint', 'compile', 'connect:server', 'regarde']
-    grunt.registerTask 'with-livereload', ['livereload-start', 'default']
+    grunt.registerTask 'default', ['clean', 'lint', 'compile', 'connect:server', 'watch']
+    grunt.registerTask 'with-livereload', ->
+        grunt.config.set('watch.options.livereload', true)
+        grunt.task.run('default')
 
     grunt.registerTask 'release', ['clean', 'lint', 'compile', 'copy', 'min']
 
