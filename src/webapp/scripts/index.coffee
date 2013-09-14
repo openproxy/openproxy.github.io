@@ -26,6 +26,8 @@ google.maps.event.addDomListener window, 'load', ->
         mapTypeControl: false
         panControl: false
         streetViewControl: false
+        zoomControlOptions:
+            position: google.maps.ControlPosition.LEFT_CENTER
         styles: [
             hidden('administrative.province')
             hidden('administrative.locality')
