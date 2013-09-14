@@ -54,7 +54,9 @@ module.exports = (grunt) ->
                     middleware: (connect) ->
                         path = require 'path'
                         project = grunt.config.get 'project'
-                        result = [require('connect-livereload')()] # takes care of liverelaod script injection
+                        result = []
+                        if grunt.config.get('watch.options.livereload')
+                            result.push require('connect-livereload')() # takes care of livereload script injection
                         result.push connect['static'](path.resolve(dir)) for dir in [project.source, project.transient]
                         return result
         uglify:
