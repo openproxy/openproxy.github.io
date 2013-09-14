@@ -6,6 +6,7 @@ html(lang="en")
         meta(name="viewport", content="initial-scale=1.0, user-scalable=no")
         meta(name="description", content="World of open proxies on Google Maps")
         link(rel="stylesheet", href="stylesheets/index.css")
+        link(rel="stylesheet", href="thirdparty/github-fork-ribbon-css/gh-fork-ribbon.css")
         link(rel="icon", href="favicon.ico")
         script(src="//code.jquery.com/jquery-1.10.1.min.js")
         script(src="//maps.googleapis.com/maps/api/js?v=3.exp&sensor=false&key=AIzaSyBkXBtlu9jmRQaY71s3rAtSXggtgjwgBSA")
@@ -18,4 +19,7 @@ html(lang="en")
             })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
             ga('create', 'UA-35914342-2', 'openproxy.github.io'); ga('send', 'pageview');
     body
+        .github-fork-ribbon-wrapper.right
+            .github-fork-ribbon
+                a(href="https://github.com/openproxy/openproxy.github.io") Fork me on GitHub
         #map-container
