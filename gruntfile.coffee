@@ -10,6 +10,8 @@ module.exports = (grunt) ->
             target: '<%= project.target %>'
         coffee:
             compile:
+                options:
+                    sourceMap: true
                 files:
                     '<%= project.transient %>/scripts/index.js': '<%= project.source %>/scripts/*.coffee'
         coffeelint:
