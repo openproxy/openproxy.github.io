@@ -55,10 +55,10 @@ google.maps.event.addDomListener window, 'load', ->
         return deferred
     mapClickListener = (event) ->
         map.setCenter(event.latLng)
-        infoWindow.close()
+        popover.hide()
         veil on
         deferredCountry = findCountry(event.latLng).done (country) ->
-            countryCode = country.address_components[0].short_name
+            countryCode = country.address_components[0].short_name # relying on ISO_3166-1 here
             url = "http://www.xroxy.com/proxylist.php?type=transparent&country=#{countryCode}&sort=latency"
             deferredProxyCollection = $.getWithYQL url, (data) ->
                 # won't work on IE, http://goo.gl/sF8j4
@@ -70,9 +70,8 @@ google.maps.event.addDomListener window, 'load', ->
                         host: $.trim($(tdl[1]).text())
                         port: parseInt($(tdl[2]).text(), 10)
                         type: $(tdl[3]).text()
-                infoWindow.setPosition(country.geometry.location)
-                infoWindow.setContent(infoTemplate(proxyCollection))
-                infoWindow.open(map)
+                popover.content(infoTemplate(proxyCollection)).
+                    show(country.geometry.location)
                 if proxySwitchEnabled
                     $('.info-window').on 'click', '.proxy-switch', (event) ->
                         proxyIndex = $(event.target).closest('tr').attr('data-index')
@@ -91,26 +90,27 @@ google.maps.event.addDomListener window, 'load', ->
         clearTimeout doubleClickCatcher
     infoTemplate = (proxies) ->
         if proxies.length is 0
-            '<div class="nobr">No proxies in this location</div>'
+            '<div style="text-align: center;">No proxies in this location</div>'
         else
             trc = if proxySwitchEnabled then 'proxy-switch' else ''
-            "<div class='info-window'>
-                <table>
-                    <thead><tr><th>Host</th><th>Port</th><th>Type</th></tr></thead>
-                    <tbody>
-                        #{('<tr class="' + trc + '" data-index="' + i + '">' +
-                            '<td>' + proxy.host + '</td><td>&nbsp;&nbsp;' + proxy.port +
+            "
+            <span class='google-maps-popover-arrow-up'></span>
+            <table style='width: 100%;'>
+                <thead><tr><th>Host</th><th>Port</th><th>Type</th></tr></thead>
+                <tbody>
+                    #{('<tr class="' + trc + '" data-index="' + i + '">' +
+                        '<td>' + proxy.host + '</td><td>&nbsp;&nbsp;' + proxy.port +
                                 '&nbsp;&nbsp;</td><td>' + proxy.type + '</td>' +
-                        '</tr>' for proxy, i in proxies).join('')}
-                    </tbody>
-                </table>
-            </div>"
-    infoWindow = new google.maps.InfoWindow
+                    '</tr>' for proxy, i in proxies).join('')}
+                </tbody>
+            </table>
+            "
     marker = new google.maps.Marker map: map
-    google.maps.event.addListener marker, 'click', ->
-        infoWindow.open(map, marker)
+    popover = new GoogleMapsPopover map: map
+    google.maps.event.addListener marker, 'click', (event) ->
+        mapClickListener(event)
     $.getJSON 'http://freegeoip.net/json/?callback=?', (data) ->
         clientLatLng = new google.maps.LatLng(data.latitude, data.longitude)
-        map.setCenter(clientLatLng)
         findCountry(clientLatLng).done (country) ->
             marker.setPosition(country.geometry.location)
+            map.setCenter(marker.getPosition())
