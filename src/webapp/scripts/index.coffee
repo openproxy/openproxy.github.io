@@ -73,7 +73,7 @@ google.maps.event.addDomListener window, 'load', ->
                 popover.content(infoTemplate(proxyCollection)).
                     show(country.geometry.location)
                 if proxySwitchEnabled
-                    $('.info-window').on 'click', '.proxy-switch', (event) ->
+                    $('.google-maps-popover').on 'click', '.proxy-switch', (event) ->
                         proxyIndex = $(event.target).closest('tr').attr('data-index')
                         proxy = proxyCollection[proxyIndex]
                         window.postMessage({type: "OP_PROXY_ON", body: proxy}, "*")
