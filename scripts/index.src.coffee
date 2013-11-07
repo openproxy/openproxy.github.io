@@ -175,7 +175,10 @@ google.maps.event.addDomListener window, 'load', ->
         clearTimeout doubleClickCatcher
     infoTemplate = (proxies) ->
         if proxies.length is 0
-            '<div style="text-align: center;">No proxies in this location</div>'
+            "
+            <span class='google-maps-popover-arrow-up'></span>
+            <div style='text-align: center;'>No proxies in this location</div>
+            "
         else
             trc = if proxySwitchEnabled then 'proxy-switch' else ''
             "
