@@ -74,6 +74,10 @@ module.exports = (grunt) ->
                             result.push require('connect-livereload')() # takes care of livereload script injection
                         result.push connect['static'](path.resolve(dir)) for dir in [project.source, project.transient]
                         return result
+            'server@release':
+                options:
+                    port: 9000
+                    base: '<%= project.distribution %>'
         useminPrepare:
             html: '<%= project.transient %>/index.html'
             options:
@@ -144,6 +148,7 @@ module.exports = (grunt) ->
         grunt.task.run('default')
 
     grunt.registerTask 'release', ['clean', 'lint', 'compile', 'min']
+    grunt.registerTask 'server@release', ['connect:server@release', 'watch']
 
     grunt.registerTask 'deploy', 'Deploy to GitHub Pages', ->
         [shell, path] = [require('shelljs'), require('path')]
