@@ -82,3 +82,5 @@ class GoogleMapsPopover extends google.maps.OverlayView
     destroy: ->
         google.maps.event.clearInstanceListeners @_el
         @setMap null
+
+window.GoogleMapsPopover = GoogleMapsPopover

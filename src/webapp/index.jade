@@ -1,11 +1,13 @@
 doctype 5
 html(lang="en")
     head
-        title Open Proxy
         meta(charset="utf-8")
+        title Open Proxy
         meta(name="viewport", content="initial-scale=1.0, user-scalable=no")
         meta(name="description", content="World of open proxies on Google Maps")
+        // build:css stylesheets/index.min.css
         link(rel="stylesheet", href="stylesheets/index.css")
+        // endbuild
         link(rel="stylesheet", href="thirdparty/github-fork-ribbon-css/gh-fork-ribbon.css")
         link(rel="stylesheet", href="thirdparty/fontello-custom-icon-font/fontello.css")
         link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Lato:300,400")
@@ -28,7 +30,10 @@ html(lang="en")
         script(src="//code.jquery.com/jquery-1.10.1.min.js")
         script(src="//maps.googleapis.com/maps/api/js?v=3.13&sensor=false&key=AIzaSyBkXBtlu9jmRQaY71s3rAtSXggtgjwgBSA")
         script(src="//cdn.jsdelivr.net/spinjs/1.3.0/spin.min.js")
+        // build:js scripts/index.min.js
+        script(src="scripts/google.maps.popover.js")
         script(src="scripts/index.js")
+        // endbuild
         script.
             (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
                 (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),

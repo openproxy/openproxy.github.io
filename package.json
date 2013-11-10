@@ -27,6 +27,8 @@
         "grunt-contrib-jade": "0.8.0",
         "grunt-coffeelint": "0.0.7",
         "grunt-open": "0.2.2",
+        "grunt-usemin": "2.0.0",
+        "grunt-contrib-concat": "0.3.0",
         "shelljs": "0.2.6"
     },
     "engines": {
