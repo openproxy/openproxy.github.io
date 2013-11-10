@@ -1,0 +1,47 @@
+.google-maps-popover
+    width: 280px
+    margin-top: 8px
+    background: #fff
+    padding: 5px
+    padding-right: 8px
+    font-size: 14px
+    text-align: center
+
+    border-top: 3px solid #a00
+    border-bottom: 1px solid #f6f6f6
+    border-bottom-right-radius: 2px
+    border-bottom-left-radius: 2px
+    -webkit-box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px
+    box-shadow: rgba(0, 0, 0, 0.298039) 0px 1px 4px -1px
+
+    table
+        border-collapse: collapse
+    thead
+        th
+            padding-bottom: 6px
+            font-weight: 500
+    tbody
+        tr
+            border-bottom: 1px solid #fff
+            -webkit-transition: all 0.3s
+            -moz-transition: all 0.3s
+            transition: all 0.3s
+            &.proxy-switch:hover
+                cursor: pointer
+                color: #999
+        td
+            border: 0
+            margin-left: 3px
+            margin-right: 3px
+            padding-bottom: 4px
+
+    .google-maps-popover-arrow-up
+        width: 0
+        height: 0
+        border-left: 5px solid transparent
+        border-right: 5px solid transparent
+        border-bottom: 5px solid #a00
+
+        position: absolute
+        top: -7px
+        left: 135px
