@@ -7,10 +7,13 @@ html(lang="en")
         meta(name="description", content="World of open proxies on Google Maps")
         // build:css stylesheets/index.min.css
         link(rel="stylesheet", href="stylesheets/google.maps.popover.css")
+        link(rel="stylesheet", href="stylesheets/selectize.copy_to_clipboard.plugin.css")
+        link(rel="stylesheet", href="stylesheets/selectize.load_more.plugin.css")
         link(rel="stylesheet", href="stylesheets/index.css")
         // endbuild
         link(rel="stylesheet", href="thirdparty/github-fork-ribbon-css/gh-fork-ribbon.css")
-        link(rel="stylesheet", href="thirdparty/fontello-custom-icon-font/fontello.css")
+        link(rel="stylesheet", href="thirdparty/fontello/fontello.css")
+        link(rel="stylesheet", href="thirdparty/selectize/selectize.css")
         link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Lato:300,400")
         link(rel="icon", href="favicon.ico")
     body
@@ -31,8 +34,17 @@ html(lang="en")
         script(src="//code.jquery.com/jquery-1.10.1.min.js")
         script(src="//maps.googleapis.com/maps/api/js?v=3.13&sensor=false&key=AIzaSyBkXBtlu9jmRQaY71s3rAtSXggtgjwgBSA")
         script(src="//cdn.jsdelivr.net/spinjs/1.3.0/spin.min.js")
+        script(src="thirdparty/selectize/selectize.js")
+        script(src="thirdparty/zeroclipboard/zeroclipboard.js")
+        script
+            ZeroClipboard.setDefaults( { moviePath: 'thirdparty/zeroclipboard/zeroclipboard.swf' } );
         // build:js scripts/index.min.js
         script(src="scripts/google.maps.popover.js")
+        script(src="scripts/jquery.yql.js")
+        script(src="scripts/xroxy.proxy.ds.js")
+        script(src="scripts/selectize.copy_to_clipboard.plugin.js")
+        script(src="scripts/selectize.load_more.plugin.js")
+        script(src="scripts/selectize.select_on_preload.plugin.js")
         script(src="scripts/index.js")
         // endbuild
         script.

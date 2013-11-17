@@ -8,7 +8,7 @@ This one has no IE suppport.
 class GoogleMapsPopover extends google.maps.OverlayView
 
     constructor: (options) ->
-        @_el = $("<div class='google-maps-popover' style='display: none'></div>")[0]
+        @el = $("<div class='google-maps-popover' style='display: none'></div>")[0]
         @_margin = x: options.marginByX or 4, y: options.marginByY or 4
         @content options.content if options.content
         @setMap options.map or throw new Error '"map" is required'
@@ -17,31 +17,31 @@ class GoogleMapsPopover extends google.maps.OverlayView
     onAdd: ->
         stopPropagationListener = (e) ->
             e.stopPropagation()
-        google.maps.event.addDomListener(@_el, eventType, stopPropagationListener) for eventType in [
+        google.maps.event.addDomListener(@el, eventType, stopPropagationListener) for eventType in [
             'mousedown', 'mouseover', 'mouseout', 'mouseup', 'click', 'dblclick', 'touchstart', 'touchend', 'touchmove']
-        google.maps.event.addDomListener(@_el, 'contextmenu', -> return false)
-        google.maps.event.addDomListener(@_el, 'mouseover', -> @style.cursor = 'default')
-        @getPanes()['floatPane'].appendChild @_el
+        google.maps.event.addDomListener(@el, 'contextmenu', -> return false)
+        google.maps.event.addDomListener(@el, 'mouseover', -> @style.cursor = 'default')
+        @getPanes()['floatPane'].appendChild @el
 
     # required by google.maps.OverlayView
     draw: ->
         return unless @_visible
         $('.gm-style').removeClass('gm-style') # todo: move outside of GoogleMapsPopover
         position = @getProjection().fromLatLngToDivPixel(@_position)
-        computedStyle = @_el.ownerDocument.defaultView.getComputedStyle(@_el, null)
+        computedStyle = @el.ownerDocument.defaultView.getComputedStyle(@el, null)
         width = parseInt(computedStyle.getPropertyValue('width'), 10)
         unless isNaN(width)
             position.x -= width / 2
-        @_el.style.position = 'absolute'
-        @_el.style.left = position.x + 'px'
-        @_el.style.top = position.y + 'px'
-        @_el.style.display = if @_visible then 'block' else 'none'
+        @el.style.position = 'absolute'
+        @el.style.left = position.x + 'px'
+        @el.style.top = position.y + 'px'
+        @el.style.display = if @_visible then 'block' else 'none'
 
     # required by google.maps.OverlayView
     onRemove: ->
-        return unless @_el
-        @_el.parentNode.removeChild @_el
-        @_el = null
+        return unless @el
+        @el.parentNode.removeChild @el
+        @el = null
 
     show: (anchor)->
         if anchor instanceof google.maps.Marker
@@ -53,7 +53,7 @@ class GoogleMapsPopover extends google.maps.OverlayView
         @moveIntoViewport()
 
     moveIntoViewport: ->
-        $el = $(@_el)
+        $el = $(@el)
         width = parseInt($el.outerWidth(true), 10)
         height = parseInt($el.outerHeight(true), 10)
         mapDiv = @getMap().getDiv()
@@ -72,15 +72,15 @@ class GoogleMapsPopover extends google.maps.OverlayView
             @getMap().panBy offsetByX, offsetByY
 
     content: (content)->
-        $(@_el).html(content)
+        $(@el).html(content)
         return @
 
     hide: ->
         @_visible = false
-        @_el.style.display = 'none'
+        @el.style.display = 'none'
 
     destroy: ->
-        google.maps.event.clearInstanceListeners @_el
+        google.maps.event.clearInstanceListeners @el
         @setMap null
 
 window.GoogleMapsPopover = GoogleMapsPopover

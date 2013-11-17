@@ -49,6 +49,7 @@ html, body, #map-container
 #logo
     letter-spacing: 0.3em
     font-weight: 400
+    cursor: default
 
 .hint
     display: block
@@ -62,3 +63,28 @@ a.icon
     &:hover
         color: #999
 
+.btn
+    border: none
+    font-family: inherit
+    font-size: inherit
+    background: none
+    cursor: pointer
+    text-transform: uppercase
+    letter-spacing: 1px
+    outline: none
+    -webkit-transition: all 0.3s
+    -moz-transition: all 0.3s
+    transition: all 0.3s
+
+.btn-yellow
+    background: #fcad26
+    color: #fff
+    &:hover
+        background: #f29e0d
+    &:active
+        background: #f58500
+
+#btn-activate
+    width: 100%
+    height: 36px
+    margin-top: 2px
