@@ -45,10 +45,20 @@ bindToClick = (map, listener) ->
     google.maps.event.addListener map, 'dblclick', ->
         clearTimeout doubleClickCatcher
 
+findCountry = do ->
+    geocoder = new google.maps.Geocoder()
+    (latLng) ->
+        deferred = new $.Deferred()
+        geocoder.geocode {latLng: latLng}, (records, status) ->
+            if status is google.maps.GeocoderStatus.OK
+                return deferred.resolve(record) for record in records when record.types.indexOf('country') isnt -1
+            deferred.reject()
+        return deferred.promise()
+
 popoverTemplate = (proxies) ->
     result = ["<span class='google-maps-popover-arrow-up'></span>"]
     if proxies.length is 0
-        result.push("<div style='text-align: center;'>No proxies in this location</div>")
+        result.push("<div style='text-align: center; margin-bottom: 3px'>No proxies in this location</div>")
     else
         result.push("<select id='proxy-list' class='selectize' style='width:100%;'/>")
         if proxySwitchEnabled
@@ -58,6 +68,25 @@ popoverTemplate = (proxies) ->
 constructDataSource = (countryCode) ->
     new XroxyProxyDS(countryCode: countryCode)
 
+bindDS = ($select, ds, preloadedData) ->
+    $select.selectize
+        plugins: [
+            'select_on_preload'
+            {} = name: 'load_more', options: {fetchSize: 10}
+            'copy_to_clipboard'
+        ],
+        preload: true,
+        load: (query, callback) ->
+            $control = @$control
+            pageNumber = $control.data('offset') or 0
+            $.when(if pageNumber then ds.fetch(pageNumber: pageNumber) else preloadedData)
+            .done (proxyCollection) ->
+                $control.data('offset', pageNumber + 1)
+                callback(
+                    for proxy in proxyCollection
+                        proxyStrigified = "#{proxy.host}:#{proxy.port}"
+                        value: proxyStrigified, text: proxyStrigified)
+
 google.maps.event.addDomListener window, 'load', ->
     veil = do ->
         $veil = $('<div class="veil" style="display: none"><div class="center"></div></div>').
@@ -66,14 +95,6 @@ google.maps.event.addDomListener window, 'load', ->
         (state) ->
             $veil[if state then 'fadeIn' else 'fadeOut']()
     map = constructMap(document.getElementById('map-container'))
-    geocoder = new google.maps.Geocoder()
-    findCountry = (latLng) ->
-        deferred = new $.Deferred()
-        geocoder.geocode {latLng: latLng}, (records, status) ->
-            if status is google.maps.GeocoderStatus.OK
-                return deferred.resolve(record) for record in records when record.types.indexOf('country') isnt -1
-            deferred.reject()
-        return deferred.promise()
     mapClickListener = (event) ->
         map.setCenter(event.latLng)
         popover.hide()
@@ -81,26 +102,9 @@ google.maps.event.addDomListener window, 'load', ->
         deferredCountry = findCountry(event.latLng).done (country) ->
             countryCode = country.address_components[0].short_name # relying on ISO_3166-1 here
             proxyDS = constructDataSource(countryCode)
-            proxyDS.fetch()
-            .done (proxyCollection) ->
+            proxyDS.fetch().done (proxyCollection) ->
                 popover.content(popoverTemplate(proxyCollection))
-                $('.selectize', $(popover.el)).selectize
-                    plugins: [
-                        'select_on_preload'
-                        {} = name: 'load_more', options: {fetchSize: 10}
-                        'copy_to_clipboard'
-                    ],
-                    preload: true,
-                    load: (query, callback) ->
-                        $control = @$control
-                        pageNumber = $control.data('offset') or 0
-                        $.when(if pageNumber then proxyDS.fetch(pageNumber: pageNumber) else proxyCollection)
-                        .done (proxyCollection_) ->
-                            $control.data('offset', pageNumber + 1)
-                            callback(
-                                for proxy in proxyCollection_
-                                    proxyStrigified = "#{proxy.host}:#{proxy.port}"
-                                    value: proxyStrigified, text: proxyStrigified)
+                bindDS $(popover.el).find('.selectize'), proxyDS, proxyCollection
                 popover.show(country.geometry.location)
                 veil off
             .fail ->
