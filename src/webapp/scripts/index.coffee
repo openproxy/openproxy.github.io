@@ -21,7 +21,7 @@ constructMap = (mapContainer) ->
         mapTypeControl: false
         panControl: false
         streetViewControl: false
-        scrollwheel: false,
+        scrollwheel: false, # true makes selectize go nuts (on scroll)
         zoomControlOptions:
             position: google.maps.ControlPosition.LEFT_CENTER
         styles: [
@@ -32,12 +32,23 @@ constructMap = (mapContainer) ->
             hidden('poi')
             hidden('transit')
         ]
+    # locking min & max zoom levels
     google.maps.event.addListener map, 'zoom_changed', do (min = 3, max = 6) -> ->
         zoom = map.getZoom()
         if zoom < min then map.setZoom(min)
         else if zoom > max then map.setZoom(max)
+    # getting rid of the gray tiles at the top/bottom of the map
+    previousCenter = map.getCenter()
+    google.maps.event.addListener map, 'center_changed', ->
+        # todo: smooth movement on the "edges of the world"
+        if 85.0511 > map.getBounds().getNorthEast().lat() and map.getBounds().getSouthWest().lat() > -85.0511
+            center = map.getCenter()
+            previousCenter = center if center
+        else
+            map.panTo previousCenter
     return map
 
+# hack to distinguish click from double click (as latter comes in form of 'click' followed by 'dblclick')
 bindToClick = (map, listener) ->
     doubleClickCatcher = null
     google.maps.event.addListener map, 'click', (event) ->
