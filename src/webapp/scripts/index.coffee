@@ -40,12 +40,11 @@ constructMap = (mapContainer) ->
     # getting rid of the gray tiles at the top/bottom of the map
     previousCenter = map.getCenter()
     google.maps.event.addListener map, 'center_changed', ->
-        # todo: smooth movement on the "edges of the world"
         if 85.0511 > map.getBounds().getNorthEast().lat() and map.getBounds().getSouthWest().lat() > -85.0511
-            center = map.getCenter()
-            previousCenter = center if center
+            previousCenter = map.getCenter()
         else
-            map.panTo previousCenter
+            currentCenter = map.getCenter()
+            map.panTo new google.maps.LatLng(previousCenter.lat(), currentCenter.lng())
     return map
 
 # hack to distinguish click from double click (as latter comes in form of 'click' followed by 'dblclick')
