@@ -1,4 +1,7 @@
-Selectize.define 'copy_to_clipboard', ->
+Selectize.define 'copy_to_clipboard', (options) ->
+
+    options.clipboard ||= new ZeroClipboard()
+
     @setup = do (originalSetup = @setup) -> ->
         @settings.render.item = do -> (data) ->
             "
@@ -10,9 +13,8 @@ Selectize.define 'copy_to_clipboard', ->
                 </a>
             </div>
             "
-        clipboard = new ZeroClipboard()
-        # todo: handle "noflash" and "wrongflash" events
+        # todo: handle "noflash" and "wrongflash" events (hiding .copy-to-clipboard-button is definitly an option here)
         @refreshOptions = do (originalRefreshOptions = @refreshOptions) -> ->
             originalRefreshOptions.apply(@, arguments)
-            clipboard.glue @$control.find('.copy-to-clipboard-button')
+            options.clipboard.glue @$control.find('.copy-to-clipboard-button') # todo: unglue from previous target
         originalSetup.apply(@, arguments)
