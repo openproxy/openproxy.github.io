@@ -9,6 +9,7 @@ html(lang="en")
         link(rel="stylesheet", href="stylesheets/google.maps.popover.css")
         link(rel="stylesheet", href="stylesheets/selectize.copy_to_clipboard.plugin.css")
         link(rel="stylesheet", href="stylesheets/selectize.load_more.plugin.css")
+        link(rel="stylesheet", href="stylesheets/jquery.tipsy.css")
         link(rel="stylesheet", href="stylesheets/index.css")
         // endbuild
         link(rel="stylesheet", href="thirdparty/github-fork-ribbon-css/gh-fork-ribbon.css")
@@ -24,7 +25,8 @@ html(lang="en")
                 | World of open proxies on Google Maps
                 .hint (click on any country to get a list)
             .bb
-                a(href="https://github.com/openproxy/openproxy-chrome-extension",
+                a#link-to-chrome-extension(
+                  href="https://github.com/openproxy/openproxy-chrome-extension",
                   title="OpenProxy Chrome Extension").icon
                     i.icon-chrome
         .github-fork-ribbon-wrapper.right
@@ -44,6 +46,12 @@ html(lang="en")
             window.ZeroClipboard || document.write('<script src="thirdparty/zeroclipboard/zeroclipboard.js"><\/script>')
         script
             ZeroClipboard.setDefaults({moviePath: 'thirdparty/zeroclipboard/zeroclipboard.swf'});
+        script(src="//cdn.jsdelivr.net/tipsy/1.0/javascripts/jquery.tipsy.js")
+        script
+            window.jQuery.fn.tipsy || document.write('<script src="thirdparty/jquery.tipsy/jquery.tipsy.js"><\/script>')
+        script
+            window.jQuery.fn.tipsy.defaults.opacity = null;
+            $('#link-to-chrome-extension').tipsy({gravity: 'w'});
         // build:js scripts/index.min.js
         script(src="scripts/google.maps.popover.js")
         script(src="scripts/jquery.yql.js")
