@@ -139,8 +139,9 @@ google.maps.event.addDomListener window, 'load', ->
         split = ($popover.find('select').val() || '').split(':')
         return unless split.length is 2
         window.postMessage({type: "OP_PROXY_ON", body: {host: split[0], port: parseInt(split[1], 10)}}, "*")
-    $.getJSON 'http://freegeoip.net/json/?callback=?', (data) ->
-        clientLatLng = new google.maps.LatLng(data.latitude, data.longitude)
+    geolocationProvider = new FreegeoipGeolocationProvider
+    geolocationProvider.fetch().done (geolocation) ->
+        clientLatLng = new google.maps.LatLng(geolocation.latitude, geolocation.longitude)
         findCountry(clientLatLng).done (country) ->
             marker.setPosition(country.geometry.location)
             map.setCenter(marker.getPosition())

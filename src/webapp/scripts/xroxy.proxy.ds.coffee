@@ -3,9 +3,13 @@ class XroxyProxyDS
     constructor: (options) ->
         @countryCode = options.countryCode or throw new Error '"countryCode" is required'
 
+    @defaults =
+        serviceURL: 'http://www.xroxy.com/proxylist.php'
+
     fetch: (options) ->
         pageNumber = options?.pageNumber || 0
-        url = "http://www.xroxy.com/proxylist.php?sort=latency&type=transparent" +
+        serviceURL = XroxyProxyDS.defaults.serviceURL
+        url = "#{XroxyProxyDS.defaults.serviceURL}?sort=latency&type=transparent" +
             "&country=#{@countryCode}&pnum=#{pageNumber}"
         deferred = new $.Deferred()
         deferredProxyCollection = $.getWithYQL url, (data) ->
@@ -20,7 +24,7 @@ class XroxyProxyDS
                     type: $(tdl[3]).text()
             deferred.resolve(proxyCollection)
         deferredProxyCollection.fail ->
-            deferred.reject() # todo: pass through an explanation
+            deferred.rejectWith(null, arguments)
         deferred.promise()
 
 window.XroxyProxyDS = XroxyProxyDS

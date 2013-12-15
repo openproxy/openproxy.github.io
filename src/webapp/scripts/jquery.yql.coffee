@@ -1,4 +1,14 @@
 $.getWithYQL = (url, callback) ->
     query = encodeURIComponent("select * from html where url=\"#{url}\"")
-    $.getJSON "//query.yahooapis.com/v1/public/yql?q=#{query}&format=xml&callback=?", (response) ->
-        callback response.results?[0]
+    deferred = $.Deferred()
+    $.getJSON "#{$.getWithYQL.defaults.serviceURL}?q=#{query}&format=xml&diagnostics=true&callback=?", (response) ->
+        diagnostics = response.query?.diagnostics?.url
+        if diagnostics?.error
+            deferred.rejectWith null, [null, diagnostics['http-status-code'], diagnostics['http-status-message']]
+        else
+            callback response.results?[0]
+    .then (-> deferred.resolveWith(null, arguments)), (-> deferred.rejectWith(null, arguments))
+    deferred.promise()
+
+$.getWithYQL.defaults =
+    serviceURL: 'http://query.yahooapis.com/v1/public/yql'
