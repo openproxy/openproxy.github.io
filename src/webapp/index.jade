@@ -5,6 +5,7 @@ html(lang="en", class="no-js")
         title Open Proxy
         meta(name="viewport", content="initial-scale=1.0, user-scalable=no")
         meta(name="description", content="World of open proxies on Google Maps")
+        // todo: prevent stylesheets from being loaded unless js is enabled
         // build:css stylesheets/index.min.css
         link(rel="stylesheet", href="stylesheets/google.maps.popover.css")
         link(rel="stylesheet", href="stylesheets/selectize.copy_to_clipboard.plugin.css")
@@ -12,15 +13,18 @@ html(lang="en", class="no-js")
         link(rel="stylesheet", href="stylesheets/jquery.tipsy.css")
         link(rel="stylesheet", href="stylesheets/index.css")
         // endbuild
+        //[if !IE]>
         link(rel="stylesheet", href="thirdparty/github-fork-ribbon-css/gh-fork-ribbon.css")
         link(rel="stylesheet", href="thirdparty/fontello/fontello.css")
         link(rel="stylesheet", href="thirdparty/selectize/selectize.css")
         link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Lato:300,400")
+        //<![endif]
         link(rel="icon", href="favicon.ico")
         script
             document.documentElement.className =
                document.documentElement.className.replace(/\bno-js\b/,'') + ' js';
     body
+        //[if !IE]>
         #root-container
             .bb-container
                 .bb
@@ -38,10 +42,9 @@ html(lang="en", class="no-js")
                     a(href="https://github.com/openproxy/openproxy.github.io") Fork me on GitHub
             #map-container
         noscript
-            #noscript-warning.
+            .unsupported-env.
                 Open Proxy requires JavaScript to be enabled.<br/>
                 Here are the <a href="http://www.enable-javascript.com/" target="_blank">instructions how to enable JavaScript in your web browser</a>.
-
         script(src="//maps.googleapis.com/maps/api/js?v=3.13&sensor=false&key=AIzaSyBkXBtlu9jmRQaY71s3rAtSXggtgjwgBSA")
         script(src="//code.jquery.com/jquery-2.0.3.min.js")
         script
@@ -76,3 +79,8 @@ html(lang="en", class="no-js")
                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
             })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
             ga('create', 'UA-35914342-2', 'openproxy.github.io'); ga('send', 'pageview');
+        //<![endif]
+    //if IE
+        .unsupported-env.
+            Internet Explorer isn't supported by Open Proxy.<br/>
+            Please use <a href="http://browsehappy.com/" target="_blank">any other browser</a>.
