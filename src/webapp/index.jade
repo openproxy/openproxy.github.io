@@ -1,5 +1,5 @@
 doctype 5
-html(lang="en")
+html(lang="en", class="no-js")
     head
         meta(charset="utf-8")
         title Open Proxy
@@ -17,22 +17,31 @@ html(lang="en")
         link(rel="stylesheet", href="thirdparty/selectize/selectize.css")
         link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Lato:300,400")
         link(rel="icon", href="favicon.ico")
+        script
+            document.documentElement.className =
+               document.documentElement.className.replace(/\bno-js\b/,'') + ' js';
     body
-        .bb-container
-            .bb
-                #logo OpenProxy
-            .bb
-                | World of open proxies on Google Maps
-                .hint (click on any country to get a list)
-            .bb
-                a#link-to-chrome-extension(
-                  href="https://github.com/openproxy/openproxy-chrome-extension",
-                  title="OpenProxy Chrome Extension").icon
-                    i.icon-chrome
-        .github-fork-ribbon-wrapper.right
-            .github-fork-ribbon
-                a(href="https://github.com/openproxy/openproxy.github.io") Fork me on GitHub
-        #map-container
+        #root-container
+            .bb-container
+                .bb
+                    #logo OpenProxy
+                .bb
+                    | World of open proxies on Google Maps
+                    .hint (click on any country to get a list)
+                .bb
+                    a#link-to-chrome-extension(
+                      href="https://github.com/openproxy/openproxy-chrome-extension",
+                      title="OpenProxy Chrome Extension").icon
+                        i.icon-chrome
+            .github-fork-ribbon-wrapper.right
+                .github-fork-ribbon
+                    a(href="https://github.com/openproxy/openproxy.github.io") Fork me on GitHub
+            #map-container
+        noscript
+            #noscript-warning.
+                Open Proxy requires JavaScript to be enabled.<br/>
+                Here are the <a href="http://www.enable-javascript.com/" target="_blank">instructions how to enable JavaScript in your web browser</a>.
+
         script(src="//maps.googleapis.com/maps/api/js?v=3.13&sensor=false&key=AIzaSyBkXBtlu9jmRQaY71s3rAtSXggtgjwgBSA")
         script(src="//code.jquery.com/jquery-2.0.3.min.js")
         script
