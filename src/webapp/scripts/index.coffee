@@ -41,7 +41,9 @@ constructMap = (mapContainer) ->
     # getting rid of the gray tiles at the top/bottom of the map
     previousCenter = map.getCenter()
     google.maps.event.addListener map, 'center_changed', ->
-        if 85.0511 > map.getBounds().getNorthEast().lat() and map.getBounds().getSouthWest().lat() > -85.0511
+        mapBounds = map.getBounds()
+        return unless mapBounds
+        if 85.0511 > mapBounds.getNorthEast().lat() and mapBounds.getSouthWest().lat() > -85.0511
             previousCenter = map.getCenter()
         else
             currentCenter = map.getCenter()
