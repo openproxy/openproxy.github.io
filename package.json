@@ -29,7 +29,8 @@
         "grunt-open": "0.2.2",
         "grunt-usemin": "2.0.0",
         "grunt-contrib-concat": "0.3.0",
-        "shelljs": "0.2.6"
+        "shelljs": "0.2.6",
+        "grunt-notify": "0.2.16"
     },
     "engines": {
         "node": ">=0.8.0"
