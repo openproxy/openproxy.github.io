@@ -20,9 +20,9 @@ html(lang="en", class="no-js")
         link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Lato:300,400")
         //<![endif]
         link(rel="icon", href="favicon.ico")
-        script
+        script.
             document.documentElement.className =
-               document.documentElement.className.replace(/\bno-js\b/,'') + ' js';
+                document.documentElement.className.replace(/\bno-js\b/,'') + ' js';
     body
         //[if !IE]>
         #root-container
@@ -46,21 +46,21 @@ html(lang="en", class="no-js")
                 Here are the <a href="http://www.enable-javascript.com/" target="_blank">instructions how to enable JavaScript in your web browser</a>.
         script(src="//maps.googleapis.com/maps/api/js?v=3.13&sensor=false&key=AIzaSyBkXBtlu9jmRQaY71s3rAtSXggtgjwgBSA")
         script(src="//code.jquery.com/jquery-2.0.3.min.js")
-        script
+        script.
             window.jQuery || document.write('<script src="thirdparty/jquery/jquery.js"><\/script>')
         script(src="//cdnjs.cloudflare.com/ajax/libs/spin.js/1.3.2/spin.min.js")
-        script
+        script.
             window.Spinner || document.write('<script src="thirdparty/spin/spin.js"><\/script>')
         script(src="thirdparty/selectize/selectize.js")
         script(src="//cdn.jsdelivr.net/zeroclipboard/1.2.2/ZeroClipboard.min.js")
-        script
+        script.
             window.ZeroClipboard || document.write('<script src="thirdparty/zeroclipboard/zeroclipboard.js"><\/script>')
-        script
+        script.
             ZeroClipboard.setDefaults({moviePath: 'thirdparty/zeroclipboard/zeroclipboard.swf'});
         script(src="//cdn.jsdelivr.net/tipsy/1.0/javascripts/jquery.tipsy.js")
-        script
+        script.
             window.jQuery.fn.tipsy || document.write('<script src="thirdparty/jquery-tipsy/jquery.tipsy.js"><\/script>')
-        script
+        script.
             window.jQuery.fn.tipsy.defaults.opacity = null;
             $('a.with-tipsied-title').tipsy({gravity: 'w'});
         // build:js scripts/index.min.js
