@@ -86,14 +86,7 @@ bindDS = ($select, ds, preloadedData) ->
         plugins: [
             'select_on_preload'
             {} = name: 'load_more', options: fetchSize: 10
-            {} = name: 'copy_to_clipboard', options:
-                clipboard: do ->
-                    clipboard = new ZeroClipboard()
-                    clipboard.on 'load', ->
-                        $(clipboard.htmlBridge).attr('title', 'Copy To Clipboard').tipsy({gravity: 'sw'})
-                    clipboard.on 'complete', ->
-                        $(clipboard.htmlBridge).attr('title', 'Copied').tipsy('show')
-                    clipboard
+            'copy_to_clipboard'
         ],
         preload: true,
         load: (query, callback) ->
