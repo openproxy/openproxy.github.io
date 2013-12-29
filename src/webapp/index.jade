@@ -6,6 +6,12 @@ html(lang="en", class="no-js")
         meta(name="viewport", content="initial-scale=1.0, user-scalable=no")
         meta(name="description", content="World of open proxies on Google Maps")
         // todo: prevent stylesheets from being loaded unless js is enabled
+        //[if !IE]>
+        link(rel="stylesheet", href="thirdparty/github-fork-ribbon-css/gh-fork-ribbon.css")
+        link(rel="stylesheet", href="thirdparty/fontello/fontello.css")
+        link(rel="stylesheet", href="thirdparty/selectize/selectize.css")
+        link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Lato:300,400")
+        //<![endif]
         // build:css stylesheets/index.min.css
         link(rel="stylesheet", href="stylesheets/google.maps.popover.css")
         link(rel="stylesheet", href="stylesheets/selectize.copy_to_clipboard.plugin.css")
@@ -14,12 +20,6 @@ html(lang="en", class="no-js")
         link(rel="stylesheet", href="stylesheets/unobtrusive.notify.css")
         link(rel="stylesheet", href="stylesheets/index.css")
         // endbuild
-        //[if !IE]>
-        link(rel="stylesheet", href="thirdparty/github-fork-ribbon-css/gh-fork-ribbon.css")
-        link(rel="stylesheet", href="thirdparty/fontello/fontello.css")
-        link(rel="stylesheet", href="thirdparty/selectize/selectize.css")
-        link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Lato:300,400")
-        //<![endif]
         link(rel="icon", href="favicon.ico")
         script.
             document.documentElement.className =
