@@ -113,7 +113,7 @@ google.maps.event.addDomListener window, 'load', ->
             appendTo($(document.body))
         new Spinner(lines: 13, length: 0, radius: 60, trail: 60).spin($veil.find('.center')[0])
         (state) ->
-            $veil[if state then 'fadeIn' else 'fadeOut']()
+            $veil[if state then 'show' else 'hide']()
     map = constructMap(document.getElementById('map-container'))
     mapClickListener = (event) ->
         map.setCenter(event.latLng)
