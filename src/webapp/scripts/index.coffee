@@ -4,6 +4,13 @@
     https://github.com/openproxy/openproxy.github.io
 ###
 
+reportAnError = do ->
+    uNotify = new UNotify()
+    (message) ->
+        uNotify.content("#{message}.<br/>
+Click <a href='https://github.com/openproxy/openproxy.github.io/wiki'>here<a/> for more information.")
+        uNotify.show() unless uNotify.isShown()
+
 # fixme: OP_CHROME_EXTENSION_INITIALIZED isn't guaranteed to be received before window load event
 proxySwitchEnabled = false
 window.addEventListener 'message', (event) ->
@@ -115,12 +122,14 @@ google.maps.event.addDomListener window, 'load', ->
         deferredCountry = findCountry(event.latLng).done (country) ->
             countryCode = country.address_components[0].short_name # relying on ISO_3166-1 here
             proxyDS = constructDataSource(countryCode)
-            proxyDS.fetch().done (proxyCollection) ->
+            proxyDS.fetch()
+            .done (proxyCollection) ->
                 popover.content(popoverTemplate(proxyCollection))
                 bindDS $(popover.el).find('.selectize'), proxyDS, proxyCollection
                 popover.show(country.geometry.location)
                 veil off
             .fail ->
+                reportAnError("Unable to retrieve list of proxies (from #{proxyDS.name})")
                 veil off
         deferredCountry.fail ->
             veil off
@@ -135,8 +144,11 @@ google.maps.event.addDomListener window, 'load', ->
         return unless split.length is 2
         window.postMessage({type: "OP_PROXY_ON", body: {host: split[0], port: parseInt(split[1], 10)}}, "*")
     geolocationProvider = new FreegeoipGeolocationProvider
-    geolocationProvider.fetch().done (geolocation) ->
+    geolocationProvider.fetch()
+    .done (geolocation) ->
         clientLatLng = new google.maps.LatLng(geolocation.latitude, geolocation.longitude)
         findCountry(clientLatLng).done (country) ->
             marker.setPosition(country.geometry.location)
             map.setCenter(marker.getPosition())
+    .fail ->
+        reportAnError("Unable to resolve current geolocation (using #{geolocationProvider.name})")

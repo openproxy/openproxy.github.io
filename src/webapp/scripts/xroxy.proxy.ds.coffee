@@ -6,6 +6,8 @@ class XroxyProxyDS
     @defaults =
         serviceURL: 'http://www.xroxy.com/proxylist.php'
 
+    name: 'xroxy.com'
+
     fetch: (options) ->
         pageNumber = options?.pageNumber || 0
         serviceURL = XroxyProxyDS.defaults.serviceURL

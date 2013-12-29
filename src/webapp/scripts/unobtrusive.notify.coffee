@@ -4,12 +4,15 @@ class UNotify # u stands for unobtrusive
         @$el = $("<div class='unotify' style='display: none'></div>")
         @$el.appendTo('body')
         @_autoHideTimeout = 7000
-        @content(options.content) if options.content?
+        @content options.content if options?.content?
 
     show: ->
         @$el.fadeIn()
         @_autoHideIn @_autoHideTimeout
-        return @
+        @
+
+    isShown: ->
+        @$el.is(':visible')
 
     _autoHideIn: (ms) ->
         clearTimeout @_timeoutHandle if @_timeoutHandle?
@@ -19,13 +22,12 @@ class UNotify # u stands for unobtrusive
         , ms
 
     content: (content) ->
-        @$el.html(content)
-        if @$el.is(':visible')
-            @_autoHideIn @_autoHideTimeout # reset the countdown
-        return @
+        @$el.html content
+        @_autoHideIn @_autoHideTimeout if @isShown() # reset the countdown
+        @
 
     hide: ->
         @$el.fadeOut()
-        return @
+        @
 
 window.UNotify = UNotify

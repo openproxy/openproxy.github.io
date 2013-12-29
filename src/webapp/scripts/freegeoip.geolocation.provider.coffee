@@ -3,6 +3,8 @@ class FreegeoipGeolocationProvider
     @defaults =
         serviceURL: 'http://freegeoip.net/json/'
 
+    name: 'freegeoip.net'
+
     fetch: (callback) ->
         deferred = new $.Deferred()
         deferredGeiolocation = $.getJSON "#{FreegeoipGeolocationProvider.defaults.serviceURL}?callback=?", (data) ->

@@ -5,6 +5,8 @@ $.getWithYQL = (url, callback) ->
         diagnostics = response.query?.diagnostics?.url
         if diagnostics?.error
             deferred.rejectWith null, [null, diagnostics['http-status-code'], diagnostics['http-status-message']]
+        else if not response.results?.length > 0
+            deferred.rejectWith null
         else
             callback response.results?[0]
     .then (-> deferred.resolveWith(null, arguments)), (-> deferred.rejectWith(null, arguments))
