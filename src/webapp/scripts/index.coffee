@@ -142,7 +142,7 @@ google.maps.event.addDomListener window, 'load', ->
     $popover.on 'click', '#btn-activate', ->
         split = ($popover.find('select').val() || '').split(':')
         return unless split.length is 2
-        window.postMessage({type: "OP_PROXY_ON", body: {host: split[0], port: parseInt(split[1], 10)}}, "*")
+        window.postMessage(type: "OP_PROXY_ON", body: {host: split[0], port: parseInt(split[1], 10)}, "*")
     geolocationProvider = new FreegeoipGeolocationProvider
     geolocationProvider.fetch()
     .done (geolocation) ->
@@ -152,3 +152,15 @@ google.maps.event.addDomListener window, 'load', ->
             map.setCenter(marker.getPosition())
     .fail ->
         reportAnError("Unable to resolve current geolocation (using #{geolocationProvider.name})")
+    $toolbar = $('#toolbar')
+    $('''
+<span style="display: none">
+    <span class="bb-divider"></span>
+    <a class="icon with-tipsied-title" title="Clear Proxy Settings" href="javascript:void(0)">
+        <i class="icon-unlink"></i>
+    </a>
+</span>
+    ''').appendTo($toolbar).fadeIn().find('a.with-tipsied-title').tipsy({gravity: 'w'}).on 'click', (e) ->
+        $target = $(e.currentTarget)
+        $target.attr('title', 'Cleared').tipsy('show').attr('title', 'Clear Proxy Settings')
+        window.postMessage(type: "OP_PROXY_OFF", "*")
