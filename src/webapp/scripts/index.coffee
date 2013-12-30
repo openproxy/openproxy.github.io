@@ -142,6 +142,7 @@ google.maps.event.addDomListener window, 'load', ->
     $popover.on 'change', 'select', ->
         $button = $popover.find('#btn-activate')
         $button.text('Activate').prop('disabled', false)
+    resetButtonHasBeenShown = false
     $popover.on 'click', '#btn-activate', (e) ->
         split = ($popover.find('select').val() || '').split(':')
         return unless split.length is 2
@@ -149,6 +150,12 @@ google.maps.event.addDomListener window, 'load', ->
         $button.prop('disabled', true)
         window.postMessage(type: "OP_PROXY_ON", body: {host: split[0], port: parseInt(split[1], 10)}, "*")
         $button.text('Activated')
+        unless resetButtonHasBeenShown
+            resetButtonHasBeenShown = true
+            $resetButton = $('#reset-btn')
+            $resetButton.attr('title', 'Just so you know, button to reset proxy settings is here').tipsy('show').
+                attr('title', 'Clear Proxy Settings')
+            setTimeout (-> $resetButton.tipsy('hide')), 7000
     geolocationProvider = new FreegeoipGeolocationProvider
     geolocationProvider.fetch()
     .done (geolocation) ->
@@ -162,7 +169,7 @@ google.maps.event.addDomListener window, 'load', ->
     $('''
 <span style="display: none">
     <span class="bb-divider"></span>
-    <a class="icon with-tipsied-title" title="Clear Proxy Settings" href="javascript:void(0)">
+    <a id="reset-btn" class="icon with-tipsied-title" title="Clear Proxy Settings" href="javascript:void(0)">
         <i class="icon-unlink"></i>
     </a>
 </span>
