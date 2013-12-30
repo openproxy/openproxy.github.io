@@ -139,10 +139,16 @@ google.maps.event.addDomListener window, 'load', ->
     popover = new GoogleMapsPopover map: map
     # todo: bind only if proxySwitchEnabled
     $popover = $(popover.el)
-    $popover.on 'click', '#btn-activate', ->
+    $popover.on 'change', 'select', ->
+        $button = $popover.find('#btn-activate')
+        $button.text('Activate').prop('disabled', false)
+    $popover.on 'click', '#btn-activate', (e) ->
         split = ($popover.find('select').val() || '').split(':')
         return unless split.length is 2
+        $button = $(e.target)
+        $button.prop('disabled', true)
         window.postMessage(type: "OP_PROXY_ON", body: {host: split[0], port: parseInt(split[1], 10)}, "*")
+        $button.text('Activated')
     geolocationProvider = new FreegeoipGeolocationProvider
     geolocationProvider.fetch()
     .done (geolocation) ->
