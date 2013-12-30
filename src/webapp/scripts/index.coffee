@@ -173,7 +173,7 @@ google.maps.event.addDomListener window, 'load', ->
         <i class="icon-unlink"></i>
     </a>
 </span>
-    ''').appendTo($toolbar).fadeIn().find('a.with-tipsied-title').tipsy({gravity: 'w'}).on 'click', (e) ->
+    ''').appendTo($toolbar).fadeIn().find('a.with-tipsied-title').tipsy({gravity: 'nw'}).on 'click', (e) ->
         $target = $(e.currentTarget)
         $target.attr('title', 'Cleared').tipsy('show').attr('title', 'Clear Proxy Settings')
         window.postMessage(type: "OP_PROXY_OFF", "*")
