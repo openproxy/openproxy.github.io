@@ -116,7 +116,7 @@ google.maps.event.addDomListener window, 'load', ->
             $veil[if state then 'show' else 'hide']()
     map = constructMap(document.getElementById('map-container'))
     mapClickListener = (event) ->
-        map.setCenter(event.latLng)
+        map.panTo(event.latLng)
         popover.hide()
         veil on
         deferredCountry = findCountry(event.latLng).done (country) ->
@@ -149,7 +149,7 @@ google.maps.event.addDomListener window, 'load', ->
         clientLatLng = new google.maps.LatLng(geolocation.latitude, geolocation.longitude)
         findCountry(clientLatLng).done (country) ->
             marker.setPosition(country.geometry.location)
-            map.setCenter(marker.getPosition())
+            map.panTo(marker.getPosition())
     .fail ->
         reportAnError("Unable to resolve current geolocation (using #{geolocationProvider.name})")
     $toolbar = $('#toolbar')
