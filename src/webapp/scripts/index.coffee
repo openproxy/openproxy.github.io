@@ -169,11 +169,11 @@ google.maps.event.addDomListener window, 'load', ->
     $('''
 <span style="display: none">
     <span class="bb-divider"></span>
-    <a id="reset-btn" class="icon with-tipsied-title" title="Clear Proxy Settings" href="javascript:void(0)">
+    <a id="reset-btn" class="icon" title="Clear Proxy Settings" href="javascript:void(0)" data-tipsy-gravity="nw">
         <i class="icon-unlink"></i>
     </a>
 </span>
-    ''').appendTo($toolbar).fadeIn().find('a.with-tipsied-title').tipsy({gravity: 'nw'}).on 'click', (e) ->
+    ''').appendTo($toolbar).fadeIn().find('a[title]').tipsy().on 'click', (e) ->
         $target = $(e.currentTarget)
         $target.attr('title', 'Cleared').tipsy('show').attr('title', 'Clear Proxy Settings')
         window.postMessage(type: "OP_PROXY_OFF", "*")

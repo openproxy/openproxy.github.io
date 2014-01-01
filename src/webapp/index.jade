@@ -35,7 +35,8 @@ html(lang="en", class="no-js")
                     .hint (click on any country to get a list)
                 #toolbar.bb
                     a(href="https://github.com/openproxy/openproxy-chrome-extension",
-                      title="OpenProxy Chrome Extension").icon.with-tipsied-title
+                      title="OpenProxy Chrome Extension",
+                      data-tipsy-gravity="nw").icon
                         i.icon-chrome
             .github-fork-ribbon-wrapper.right
                 .github-fork-ribbon
@@ -62,8 +63,11 @@ html(lang="en", class="no-js")
         script.
             window.jQuery.fn.tipsy || document.write('<script src="thirdparty/jquery-tipsy/jquery.tipsy.js"><\/script>')
         script.
-            window.jQuery.fn.tipsy.defaults.opacity = null;
-            $('a.with-tipsied-title').tipsy({gravity: 'nw'});
+            $.fn.tipsy.defaults.opacity = null;
+            $.fn.tipsy.elementOptions = function(ele, options) {
+                return $.extend({}, options, {gravity: $(ele).attr('data-tipsy-gravity') || options.gravity });
+            };
+            $('a[title]').tipsy();
         // build:js scripts/index.min.js
         script(src="scripts/google.maps.popover.js")
         script(src="scripts/jquery.yql.js")
