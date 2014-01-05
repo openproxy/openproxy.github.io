@@ -1,0 +1,18 @@
+CACHE MANIFEST
+# 0.1.1
+
+CACHE:
+/favicon.ico
+/index.html
+/stylesheets/index.min.css
+/scripts/index.min.js
+
+/thirdparty/fontello.font/fontello.ttf
+/thirdparty/jquery/jquery.js
+/thirdparty/jquery-tipsy/jquery.tipsy.js
+
+http://themes.googleusercontent.com/static/fonts/raleway/v6/UAnF6lSK1JNc1tqTiG8pNALUuEpTyoUstqEm5AMlJo4.ttf
+http://themes.googleusercontent.com/static/fonts/lato/v6/0DeoTBMnW4sOpD0Zb8OQSALUuEpTyoUstqEm5AMlJo4.ttf
+
+NETWORK:
+*

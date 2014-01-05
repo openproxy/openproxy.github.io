@@ -65,16 +65,6 @@ bindToClick = (map, listener) ->
     google.maps.event.addListener map, 'dblclick', ->
         clearTimeout doubleClickCatcher
 
-findCountry = do ->
-    geocoder = new google.maps.Geocoder()
-    (latLng) ->
-        deferred = new $.Deferred()
-        geocoder.geocode {latLng: latLng}, (records, status) ->
-            if status is google.maps.GeocoderStatus.OK
-                return deferred.resolve(record) for record in records when record.types.indexOf('country') isnt -1
-            deferred.reject()
-        return deferred.promise()
-
 popoverTemplate = (proxies) ->
     result = ["<span class='google-maps-popover-arrow-up'></span>"]
     if proxies.length is 0
@@ -107,13 +97,34 @@ bindDS = ($select, ds, preloadedData) ->
                         proxyStrigified = "#{proxy.host}:#{proxy.port}"
                         value: proxyStrigified, text: proxyStrigified)
 
-google.maps.event.addDomListener window, 'load', ->
+$ ->
+    $application = $('#application-container')
+
+    unless window.google
+        $application.html($('#application-recovery-template').html())
+        $application.find('#reset-btn').tipsy().on 'click', (e) ->
+            $target = $(e.currentTarget)
+            $target.attr('title', 'Cleared. You may want to refresh page now.').tipsy('show').
+                attr('title', 'Clear Proxy Settings')
+            window.postMessage(type: "OP_PROXY_OFF", "*")
+        return
+
+    $application.html($('#application-template').html()).find('a[title]').tipsy()
     veil = do ->
         $veil = $('<div class="veil" style="display: none"><div class="center"></div></div>').
             appendTo($(document.body))
         new Spinner(lines: 13, length: 0, radius: 60, trail: 60).spin($veil.find('.center')[0])
         (state) ->
             $veil[if state then 'show' else 'hide']()
+    findCountry = do ->
+        geocoder = new google.maps.Geocoder()
+        (latLng) ->
+            deferred = new $.Deferred()
+            geocoder.geocode {latLng: latLng}, (records, status) ->
+                if status is google.maps.GeocoderStatus.OK
+                    return deferred.resolve(record) for record in records when record.types.indexOf('country') isnt -1
+                deferred.reject()
+            return deferred.promise()
     map = constructMap(document.getElementById('map-container'))
     mapClickListener = (event) ->
         map.panTo(event.latLng)
@@ -153,7 +164,7 @@ google.maps.event.addDomListener window, 'load', ->
         unless resetButtonHasBeenShown
             resetButtonHasBeenShown = true
             $resetButton = $('#reset-btn')
-            $resetButton.attr('title', 'Just so you know, button to reset proxy settings is here').tipsy('show').
+            $resetButton.attr('title', 'Just so you know, button to reset proxy settings is here.').tipsy('show').
                 attr('title', 'Clear Proxy Settings')
             setTimeout (-> $resetButton.tipsy('hide')), 7000
     geolocationProvider = new FreegeoipGeolocationProvider

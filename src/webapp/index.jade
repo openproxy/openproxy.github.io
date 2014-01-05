@@ -8,11 +8,12 @@ html(lang="en", class="no-js")
         // todo: prevent stylesheets from being loaded unless js is enabled
         //[if !IE]>
         link(rel="stylesheet", href="thirdparty/github-fork-ribbon-css/gh-fork-ribbon.css")
-        link(rel="stylesheet", href="thirdparty/fontello/fontello.css")
         link(rel="stylesheet", href="thirdparty/selectize/selectize.css")
-        link(rel="stylesheet", href="//fonts.googleapis.com/css?family=Raleway:400|Lato:300,400")
         //<![endif]
         // build:css stylesheets/index.min.css
+        link(rel="stylesheet", href="stylesheets/raleway.font.css")
+        link(rel="stylesheet", href="stylesheets/lato.font.css")
+        link(rel="stylesheet", href="stylesheets/fontello.font.css")
         link(rel="stylesheet", href="stylesheets/google.maps.popover.css")
         link(rel="stylesheet", href="stylesheets/selectize.copy_to_clipboard.plugin.css")
         link(rel="stylesheet", href="stylesheets/selectize.load_more.plugin.css")
@@ -26,26 +27,35 @@ html(lang="en", class="no-js")
                 document.documentElement.className.replace(/\bno-js\b/,'') + ' js';
     body
         //[if !IE]>
-        #root-container
+        #application-container
+        noscript
+            .unsupported-env.
+                Open Proxy requires JavaScript to be enabled.<br/>
+                Here are the <a href="http://www.enable-javascript.com/" target="_blank">instructions how to enable JavaScript in your web browser</a>.
+        script#application-template(type="text/template")
             .bb-container
                 .bb.bb-compact
-                    #logo OpenProxy
+                    .logo OpenProxy
                 .bb
                     | World of open proxies on Google Maps
                     .hint (click on any country to get a list)
                 #toolbar.bb
                     a(href="https://github.com/openproxy/openproxy-chrome-extension",
-                      title="OpenProxy Chrome Extension",
-                      data-tipsy-gravity="nw").icon
+                    title="OpenProxy Chrome Extension",
+                    data-tipsy-gravity="nw").icon
                         i.icon-chrome
             .github-fork-ribbon-wrapper.right
                 .github-fork-ribbon
                     a(href="https://github.com/openproxy/openproxy.github.io") Fork me on GitHub
             #map-container
-        noscript
-            .unsupported-env.
-                Open Proxy requires JavaScript to be enabled.<br/>
-                Here are the <a href="http://www.enable-javascript.com/" target="_blank">instructions how to enable JavaScript in your web browser</a>.
+        script#application-recovery-template(type="text/template")
+            .vhc-container
+                .vhc
+                    #recovery-container
+                        .logo OpenProxy
+                        .hint (recovery mode)
+                        a#reset-btn(href="javascript:void(0)", title="Clear Proxy Settings").icon
+                            i.icon-unlink
         script(src="//maps.googleapis.com/maps/api/js?v=3.13&sensor=false&key=AIzaSyBkXBtlu9jmRQaY71s3rAtSXggtgjwgBSA")
         script(src="//code.jquery.com/jquery-2.0.3.min.js")
         script.
@@ -67,7 +77,6 @@ html(lang="en", class="no-js")
             $.fn.tipsy.elementOptions = function(ele, options) {
                 return $.extend({}, options, {gravity: $(ele).attr('data-tipsy-gravity') || options.gravity });
             };
-            $('a[title]').tipsy();
         // build:js scripts/index.min.js
         script(src="scripts/google.maps.popover.js")
         script(src="scripts/jquery.yql.js")
