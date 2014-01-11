@@ -65,6 +65,7 @@ module.exports = (grunt) ->
         connect:
             server:
                 options:
+                    # hostname: "*"
                     port: 8000
                     middleware: (connect) ->
                         path = require 'path'
@@ -122,7 +123,7 @@ module.exports = (grunt) ->
                 files: [
                     expand: true
                     cwd: '<%= project.source %>'
-                    src: ['favicon.ico', 'thirdparty/**', '!**/component.json']
+                    src: ['favicon.ico', 'cache.manifest', 'thirdparty/**', '!**/component.json']
                     dest: '<%= project.distribution %>'
                    ,
                     expand: true
