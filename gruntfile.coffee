@@ -50,18 +50,42 @@ module.exports = (grunt) ->
                         debug: false
                 files:
                     '<%= project.transient %>/index.html': '<%= project.source %>/index.jade'
+        manifest:
+            options:
+                cache: [
+                    'index.html'
+                    'favicon.ico'
+                    'thirdparty/fontello.font/fontello.ttf'
+                    'thirdparty/jquery/jquery.js'
+                    'thirdparty/jquery-tipsy/jquery.tipsy.js'
+                    'http://themes.googleusercontent.com/static/fonts/
+raleway/v6/UAnF6lSK1JNc1tqTiG8pNALUuEpTyoUstqEm5AMlJo4.ttf'
+                    'http://themes.googleusercontent.com/static/fonts/
+lato/v6/0DeoTBMnW4sOpD0Zb8OQSALUuEpTyoUstqEm5AMlJo4.ttf'
+                ]
+                network: ['*']
+            transient:
+                options:
+                    basePath: '<%= project.transient %>'
+                src: ['scripts/*.js', 'stylesheets/*.css']
+                dest: '<%= project.transient %>/cache.manifest'
+            release:
+                options:
+                    basePath: '<%= project.distribution %>'
+                src: ['scripts/*.js', 'stylesheets/*.css', ]
+                dest: '<%= project.distribution %>/cache.manifest'
         watch:
             options:
                 spawn: false # sacrificing stability for the performance
             coffee:
                 files: '<%= project.source %>/scripts/*.coffee'
-                tasks: ['coffeelint', 'coffee:compile']
+                tasks: ['coffeelint', 'coffee:compile', 'manifest:transient']
             stylus:
                 files: '<%= project.source %>/stylesheets/*.styl'
-                tasks: ['stylus:compile']
+                tasks: ['stylus:compile', 'manifest:transient']
             jade:
                 files: '<%= project.source %>/*.jade'
-                tasks: ['jade:compile']
+                tasks: ['jade:compile', 'manifest:transient']
         connect:
             server:
                 options:
@@ -123,7 +147,7 @@ module.exports = (grunt) ->
                 files: [
                     expand: true
                     cwd: '<%= project.source %>'
-                    src: ['favicon.ico', 'cache.manifest', 'thirdparty/**', '!**/component.json']
+                    src: ['favicon.ico', 'thirdparty/**', '!**/component.json']
                     dest: '<%= project.distribution %>'
                    ,
                     expand: true
@@ -143,12 +167,12 @@ module.exports = (grunt) ->
     grunt.registerTask 'compile', ['coffee:compile', 'stylus:compile', 'jade:compile']
     grunt.registerTask 'min', ['copy', 'useminPrepare', 'concat', 'uglify', 'cssmin', 'usemin', 'htmlmin']
 
-    grunt.registerTask 'default', ['clean', 'lint', 'compile', 'connect:server', 'watch']
+    grunt.registerTask 'default', ['clean', 'lint', 'compile', 'manifest:transient', 'connect:server', 'watch']
     grunt.registerTask 'with-livereload', ->
         grunt.config.set('watch.options.livereload', true)
         grunt.task.run('default')
 
-    grunt.registerTask 'release', ['clean', 'lint', 'compile', 'min']
+    grunt.registerTask 'release', ['clean', 'lint', 'compile', 'min', 'manifest:release']
     grunt.registerTask 'server@release', ['connect:server@release', 'watch']
 
     grunt.registerTask 'deploy', 'Deploy to GitHub Pages', ->
