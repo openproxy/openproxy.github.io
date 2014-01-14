@@ -32,7 +32,8 @@
         "shelljs": "0.2.6",
         "temporary": "0.0.8",
         "grunt-notify": "0.2.16",
-        "grunt-manifest": "0.4.0"
+        "grunt-manifest": "0.4.0",
+        "grunt-bump": "0.0.13"
     },
     "engines": {
         "node": ">=0.8.0"

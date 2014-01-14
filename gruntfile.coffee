@@ -158,6 +158,10 @@ lato/v6/0DeoTBMnW4sOpD0Zb8OQSALUuEpTyoUstqEm5AMlJo4.ttf'
         open:
             server:
                 url: 'http://localhost:<%= connect.server.options.port %>'
+        bump:
+            options:
+                commitMessage: 'v%VERSION%'
+                tagMessage: 'v%VERSION%'
         deploy:
             options:
                 sourceDirectory: '<%= project.distribution %>'
@@ -185,7 +189,7 @@ lato/v6/0DeoTBMnW4sOpD0Zb8OQSALUuEpTyoUstqEm5AMlJo4.ttf'
     grunt.registerTask 'release', ['clean', 'lint', 'compile', 'min', 'manifest:release']
     grunt.registerTask 'server@release', ['connect:server@release', 'watch']
 
-    grunt.registerTask 'deploy', 'Deploy to GitHub Pages', ->
+    grunt.registerTask 'deploy', 'Deploy to the GitHub', ->
         [shell, tmp, path] = [require('shelljs'), require('temporary'), require('path')]
         return grunt.fatal '"git" needs to be available on the PATH in order to proceed.' unless shell.which 'git'
         options = this.options()
