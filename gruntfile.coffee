@@ -158,6 +158,16 @@ lato/v6/0DeoTBMnW4sOpD0Zb8OQSALUuEpTyoUstqEm5AMlJo4.ttf'
         open:
             server:
                 url: 'http://localhost:<%= connect.server.options.port %>'
+        deploy:
+            options:
+                sourceDirectory: '<%= project.distribution %>'
+                repositoryURL: '<%= grunt.config.get("pkg").repository.url %>'
+                commitMessage: ->
+                    shell = require('shelljs')
+                    packageVersion = grunt.config.get('pkg').version
+                    gitBranch = shell.exec('git rev-parse --abbrev-ref HEAD', silent: true).output.trim()
+                    gitRevision = shell.exec('git rev-list HEAD --max-count=1', silent: true).output.trim()
+                    "#{packageVersion} of #{gitBranch}/#{gitRevision}"
 
     # load all grunt tasks defined in package.json
     grunt.loadNpmTasks task for own task of grunt.config.
@@ -176,23 +186,27 @@ lato/v6/0DeoTBMnW4sOpD0Zb8OQSALUuEpTyoUstqEm5AMlJo4.ttf'
     grunt.registerTask 'server@release', ['connect:server@release', 'watch']
 
     grunt.registerTask 'deploy', 'Deploy to GitHub Pages', ->
-        [shell, path] = [require('shelljs'), require('path')]
+        [shell, tmp, path] = [require('shelljs'), require('temporary'), require('path')]
         return grunt.fatal '"git" needs to be available on the PATH in order to proceed.' unless shell.which 'git'
-        checkoutURL = 'https://github.com/openproxy/openproxy.github.io.git'
-        checkoutDirectory = 'target/master'
-        releaseBuild = path.resolve 'target/release_build'
-        packageVersion = grunt.config.get('pkg').version
-        gitBranch = shell.exec('git rev-parse --abbrev-ref HEAD', silent: true).output.trim()
-        gitRevision = shell.exec('git rev-list HEAD --max-count=1', silent: true).output.trim()
+        options = this.options()
+        sourceDirectory = path.resolve options.sourceDirectory
+        checkoutDirectory = options.checkoutDirectory || (new tmp.Dir()).path
         shell.config.fatal = true
+        grunt.log.writeln "Preparing #{checkoutDirectory} to be used as a checkout directory"
         shell.rm '-rf', checkoutDirectory
-        shell.exec "git clone -b master #{checkoutURL} #{checkoutDirectory}", silent: true
+        grunt.log.writeln "Cloning #{options.repositoryURL}"
+        # todo: how about "--single-branch"?
+        shell.exec "git clone -b master #{options.repositoryURL} #{checkoutDirectory}", silent: true
         shell.cd checkoutDirectory
         shell.exec 'git rm -rq ./*'
-        shell.cp '-r', "#{releaseBuild}/*", './'
+        grunt.log.writeln "Overlaying with #{sourceDirectory}"
+        shell.cp '-r', "#{sourceDirectory}/*", './'
         shell.exec 'git add --all'
-        shell.exec "git commit -m '#{packageVersion} of #{gitBranch}/#{gitRevision}'"
+        message = options.commitMessage
+        message = message() if typeof(message) is 'function'
+        shell.exec "git commit -m '#{message}'"
         if grunt.option('push') is true
+            grunt.log.writeln "Performing push to #{options.repositoryURL}"
             shell.exec 'git push'
         else
             grunt.log.writeln '"git push" skipped due to unspecified --push=true'
