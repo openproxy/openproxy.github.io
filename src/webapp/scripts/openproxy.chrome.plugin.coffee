@@ -17,6 +17,22 @@ OpenProxy.define 'chrome', ->
                 window.postMessage(type: "OP_PROXY_OFF", "*")
             return
 
+        @render = do (originalRender = @render) -> ->
+            result = originalRender.apply(@, arguments)
+            $toolbar = $('#toolbar')
+            $('''
+<span style="display: none">
+    <span class="bb-divider"></span>
+    <a id="reset-btn" class="icon" title="Clear Proxy Settings" href="javascript:void(0)" data-tipsy-gravity="nw">
+        <i class="icon-unlink"></i>
+    </a>
+</span>
+            ''').appendTo($toolbar).fadeIn().find('#reset-btn').tipsy().on 'click', (e) ->
+                $target = $(e.currentTarget)
+                $target.attr('title', 'Cleared').tipsy('show').attr('title', 'Clear Proxy Settings')
+                window.postMessage(type: "OP_PROXY_OFF", "*")
+            result
+
         @popoverTemplate = do (originalPopoverTemplate = @popoverTemplate) -> (proxies) ->
             html = originalPopoverTemplate.apply(@, arguments)
             if proxies.length
@@ -43,16 +59,4 @@ OpenProxy.define 'chrome', ->
                         .tipsy('show')
                         .attr('title', 'Clear Proxy Settings')
                     setTimeout (-> $resetButton.tipsy('hide')), 7000
-            $toolbar = $('#toolbar')
-            $('''
-<span style="display: none">
-    <span class="bb-divider"></span>
-    <a id="reset-btn" class="icon" title="Clear Proxy Settings" href="javascript:void(0)" data-tipsy-gravity="nw">
-        <i class="icon-unlink"></i>
-    </a>
-</span>
-            ''').appendTo($toolbar).fadeIn().find('#reset-btn').tipsy().on 'click', (e) ->
-                $target = $(e.currentTarget)
-                $target.attr('title', 'Cleared').tipsy('show').attr('title', 'Clear Proxy Settings')
-                window.postMessage(type: "OP_PROXY_OFF", "*")
             @customizePopover = null
