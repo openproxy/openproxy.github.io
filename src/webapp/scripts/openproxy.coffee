@@ -81,11 +81,14 @@ class OpenProxy
             deferred.reject()
         return deferred.promise()
 
-    reportAnError: (message) ->
+    notify: (message) ->
         @uNotify ||= new UNotify()
-        @uNotify.content("#{message}.<br/>
-Click <a href='https://github.com/openproxy/openproxy.github.io/wiki'>here<a/> for more information.")
+        @uNotify.content(message)
         @uNotify.show() unless @uNotify.isShown()
+
+    reportAnError: (message) ->
+        @notify "#{message}.<br/>
+Click <a href='https://github.com/openproxy/openproxy.github.io/wiki'>here<a/> for more information."
 
     render: ->
         unless window.google
@@ -135,6 +138,7 @@ Click <a href='https://github.com/openproxy/openproxy.github.io/wiki'>here<a/> f
                 map.panTo marker.getPosition()
         .fail =>
             @reportAnError("Unable to resolve current geolocation (using #{geolocationProvider.name})")
+        @
 
     popoverTemplate: (proxyList) ->
         result = ["<span class='google-maps-popover-arrow-up'></span>"]
