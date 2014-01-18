@@ -88,7 +88,10 @@ Click <a href='https://github.com/openproxy/openproxy.github.io/wiki'>here<a/> f
         @uNotify.show() unless @uNotify.isShown()
 
     render: ->
-        return unless window.google
+        unless window.google
+            unless @$el[0].hasChildNodes()
+                @$el.html($('#application-recovery-template').html())
+            return
         @$el.html($('#application-template').html()).find('a[title]').tipsy()
         map = constructMap(@$el.find('#map-container')[0])
         popover = new GoogleMapsPopover map: map

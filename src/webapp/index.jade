@@ -53,6 +53,18 @@ html(lang="en", manifest="cache.manifest", class="no-js")
                 .vhc
                     #recovery-container
                         .logo OpenProxy
+                        .hint (offline mode)
+                        div(style="margin-top: 12px; margin-bottom: 12px").
+                            OpenProxy was unable to load Google Maps. Please check your Internet connection.
+                        .hint
+                            | If you think this is a mistake,<br/> please let us know through&nbsp;
+                            a(href="https://github.com/openproxy/openproxy.github.io/issues") Github issue tracker
+                            |.
+        script#application-chrome-recovery-template(type="text/template")
+            .vhc-container
+                .vhc
+                    #recovery-container
+                        .logo OpenProxy
                         .hint (recovery mode)
                         a#reset-btn(href="javascript:void(0)", title="Clear Proxy Settings").icon
                             i.icon-unlink

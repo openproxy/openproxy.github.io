@@ -8,8 +8,8 @@ OpenProxy.define 'chrome', ->
     chromeExtensionDeferred.done =>
 
         unless window.google
-            @el.html($('#application-recovery-template').html())
-            @el.find('#reset-btn').tipsy().on 'click', (e) ->
+            @$el.html($('#application-chrome-recovery-template').html())
+            @$el.find('#reset-btn').tipsy().on 'click', (e) ->
                 $target = $(e.currentTarget)
                 $target.attr('title', 'Cleared. You may want to refresh page now.')
                     .tipsy('show')
