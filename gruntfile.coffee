@@ -79,7 +79,7 @@ lato/v6/0DeoTBMnW4sOpD0Zb8OQSALUuEpTyoUstqEm5AMlJo4.ttf'
                 spawn: false # sacrificing stability for the performance
             coffee:
                 files: '<%= project.source %>/scripts/*.coffee'
-                tasks: ['coffeelint', 'coffee:compile', 'manifest:transient']
+                tasks: ['coffee:compile', 'manifest:transient', 'coffeelint']
             stylus:
                 files: '<%= project.source %>/stylesheets/*.styl'
                 tasks: ['stylus:compile', 'manifest:transient']
