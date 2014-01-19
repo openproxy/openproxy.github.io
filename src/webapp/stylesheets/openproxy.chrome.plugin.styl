@@ -1,0 +1,41 @@
+.btn
+    border: none
+    font-family: inherit
+    font-size: inherit
+    background: none
+    cursor: pointer
+    text-transform: uppercase
+    letter-spacing: 1px
+    outline: none
+    -webkit-transition: all 0.3s
+    -moz-transition: all 0.3s
+    transition: all 0.3s
+
+.btn-yellow
+    background: #fcad26
+    color: #fff
+    &:hover
+        background: #f29e0d
+    /*
+    &:active
+        background: #f58500
+    */
+    &:disabled
+        cursor: default
+        background: #ccc
+
+#btn-activate
+    width: 100%
+    height: 36px
+    margin-top: 2px
+    margin-bottom: 3px
+
+#recovery-container
+    #reset-btn
+        font-size: 12em
+        color: #cdcdcd
+        text-shadow: 0px 1px 1px #aaa;
+        &:hover
+            color: darken(#cdcdcd, 5%)
+        &:active
+            color: darken(#cdcdcd, 10%)
