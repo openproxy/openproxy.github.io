@@ -36,21 +36,37 @@ OpenProxy.define 'chrome', ->
         @popoverTemplate = do (originalPopoverTemplate = @popoverTemplate) -> (proxies) ->
             html = originalPopoverTemplate.apply(@, arguments)
             if proxies.length
-                html += "<button id='btn-activate' class='btn btn-yellow'>Activate</button>"
+                html += """
+<div id="advanced-options" style='display: none'>
+    <div><input id="included-hosts" type="text" placeholder='Hosts to include'></select></div>
+    <div><input id="excluded-hosts" type="text" placeholder='Hosts to exclude'></select></div>
+</div>
+<div id='advanced-options-toggle-container'>
+    <a id="advanced-options-toggle" href="javascript:void(0)">(show advanced options)</a>
+</div>
+<button id='btn-activate' class='btn btn-yellow'>Activate</button>
+"""
             html
 
         @customizePopover = (popover) ->
             $popover = $(popover.el)
-            $popover.on 'change', 'select', ->
+            enableActivationButton = ->
                 $button = $popover.find('#btn-activate')
-                $button.text('Activate').prop('disabled', false)
+                $button.text('Activate').prop('disabled', false) if $button.prop('disabled')
+            $popover.on 'change', 'select', enableActivationButton
             resetButtonHasBeenShown = false
             $popover.on 'click', '#btn-activate', (e) ->
                 split = $popover.find('select').val().split(':')
                 return unless split.length is 2
                 $button = $(e.target)
                 $button.prop('disabled', true)
-                window.postMessage(type: "OP_PROXY_ON", body: {host: split[0], port: parseInt(split[1], 10)}, "*")
+                messageBody = {host: split[0], port: parseInt(split[1], 10)}
+                if $popover.find('#advanced-options').is(':visible')
+                    value = $popover.find('#included-hosts').val()
+                    messageBody.whitelist = value.split(',') if value
+                    value = $popover.find('#excluded-hosts').val()
+                    messageBody.blacklist = value.split(',') if value
+                    window.postMessage(type: "OP_PROXY_ON", body: messageBody, "*")
                 $button.text('Activated')
                 unless resetButtonHasBeenShown
                     resetButtonHasBeenShown = true
@@ -59,4 +75,20 @@ OpenProxy.define 'chrome', ->
                         .tipsy('show')
                         .attr('title', 'Clear Proxy Settings')
                     setTimeout (-> $resetButton.tipsy('hide')), 7000
-            @customizePopover = null
+            $popover.on 'click', '#advanced-options-toggle', (e) ->
+                $target = $(e.currentTarget)
+                $options = $popover.find('#advanced-options')
+                $target.text("(#{if $options.is(':visible') then 'show' else 'hide'} advanced options)")
+                enableActivationButton()
+                $options.toggle()
+            selectizeOptions =
+                persist: false, create: (input) -> value: input, text: input
+            @customizePopover = ->
+                [includedHosts, excludedHosts] = (for selector in ['#included-hosts', '#excluded-hosts']
+                    $popover.find(selector).selectize(selectizeOptions)[0].selectize)
+                onHostsChange = (target) -> ->
+                    target[if @getValue() then 'disable' else 'enable']()
+                    enableActivationButton()
+                includedHosts.on 'change', onHostsChange(excludedHosts)
+                excludedHosts.on 'change', onHostsChange(includedHosts)
+            @customizePopover()
