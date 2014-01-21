@@ -38,8 +38,8 @@ OpenProxy.define 'chrome', ->
             if proxies.length
                 html += """
 <div id="advanced-options" style='display: none'>
-    <div><input id="included-hosts" type="text" placeholder='Hosts to include'></select></div>
-    <div><input id="excluded-hosts" type="text" placeholder='Hosts to exclude'></select></div>
+    <div><input id="included-hosts" type="text" placeholder='Hosts to include'/></div>
+    <div><input id="excluded-hosts" type="text" placeholder='Hosts to exclude'/></div>
 </div>
 <div id='advanced-options-toggle-container'>
     <a id="advanced-options-toggle" href="javascript:void(0)">(show advanced options)</a>
