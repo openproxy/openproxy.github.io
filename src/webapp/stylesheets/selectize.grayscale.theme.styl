@@ -1,0 +1,22 @@
+background-image($from, $to)
+    background-image: -moz-linear-gradient(top, $from, $to)
+    background-image: -webkit-gradient(linear, 0 0, 0 100%, from($from), to($to))
+    background-image: -webkit-linear-gradient(top, $from, $to)
+    background-image: -o-linear-gradient(top, $from, $to)
+    background-image: linear-gradient(to bottom, $from, $to)
+
+.selectize-control.multi .selectize-input > div
+    background: lighten(grayscale(#1da7ee), 10%)
+    border: 1px solid lighten(grayscale(#0073bb), 10%)
+
+.selectize-control.multi .selectize-input > div.active
+    background: lighten(grayscale(#008fd8), 10%)
+    border: 1px solid lighten(grayscale(#00578d), 10%)
+
+.selectize-control.multi .selectize-input [data-value]
+    background-color: lighten(grayscale(#1b9dec), 10%)
+    background-image: lighten(grayscale(#1da7ee), 10%), lighten(grayscale(#178ee9), 10%)
+
+.selectize-control.multi .selectize-input [data-value].active
+    background-color: lighten(grayscale(#0085d4), 10%)
+    background-image: lighten(grayscale(#008fd8), 10%), lighten(grayscale(#0075cf), 10%)
