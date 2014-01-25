@@ -82,7 +82,10 @@ OpenProxy.define 'chrome', ->
                 enableActivationButton()
                 $options.toggle()
             selectizeOptions =
-                persist: false, create: (input) -> value: input, text: input
+                plugins: ['persistent_value'],
+                persist: false,
+                create: (input) ->
+                    value: input, text: input
             @customizePopover = ->
                 [includedHosts, excludedHosts] = (for selector in ['#included-hosts', '#excluded-hosts']
                     $popover.find(selector).selectize(selectizeOptions)[0].selectize)
@@ -91,4 +94,6 @@ OpenProxy.define 'chrome', ->
                     enableActivationButton()
                 includedHosts.on 'change', onHostsChange(excludedHosts)
                 excludedHosts.on 'change', onHostsChange(includedHosts)
+                for input in [includedHosts, excludedHosts]
+                    input.trigger('change', input.$input.val())
             @customizePopover()
