@@ -143,9 +143,9 @@ Click <a href='https://github.com/openproxy/openproxy.github.io/wiki'>here<a/> f
     popoverTemplate: (proxyList) ->
         result = ["<span class='google-maps-popover-arrow-up'></span>"]
         if proxyList.length
-            result.push("<select id='proxy-list' class='selectize' style='width:100%;'/>")
+            result.push("<select id='proxy-list' class='selectize'/>")
         else
-            result.push("<div style='text-align: center; margin-bottom: 3px'>No proxies in this location</div>")
+            result.push("<div id='empty-proxy-list'>No proxies in this location</div>")
         result.join('')
 
 MicroPlugin.mixin(OpenProxy)
