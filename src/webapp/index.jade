@@ -71,9 +71,13 @@ html(lang="en", manifest="cache.manifest", class="no-js")
                         a#reset-btn(href="javascript:void(0)", title="Clear Proxy Settings").icon
                             i.icon-unlink
         script(src="//maps.googleapis.com/maps/api/js?v=3.13&sensor=false&key=AIzaSyBkXBtlu9jmRQaY71s3rAtSXggtgjwgBSA")
-        script(src="//code.jquery.com/jquery-2.0.3.min.js")
+        script(src="thirdparty/jquery/jquery.js")
+        script(src="thirdparty/jquery-tipsy/jquery.tipsy.js")
         script.
-            window.jQuery || document.write('<script src="thirdparty/jquery/jquery.js"><\/script>')
+            $.fn.tipsy.defaults.opacity = null;
+            $.fn.tipsy.elementOptions = function(ele, options) {
+                return $.extend({}, options, {gravity: $(ele).attr('data-tipsy-gravity') || options.gravity });
+            };
         script(src="//cdnjs.cloudflare.com/ajax/libs/spin.js/1.3.2/spin.min.js")
         script.
             window.Spinner || document.write('<script src="thirdparty/spin/spin.js"><\/script>')
@@ -83,14 +87,6 @@ html(lang="en", manifest="cache.manifest", class="no-js")
             window.ZeroClipboard || document.write('<script src="thirdparty/zeroclipboard/zeroclipboard.js"><\/script>')
         script.
             ZeroClipboard.setDefaults({moviePath: 'thirdparty/zeroclipboard/zeroclipboard.swf'});
-        script(src="//cdn.jsdelivr.net/tipsy/1.0/javascripts/jquery.tipsy.js")
-        script.
-            window.jQuery.fn.tipsy || document.write('<script src="thirdparty/jquery-tipsy/jquery.tipsy.js"><\/script>')
-        script.
-            $.fn.tipsy.defaults.opacity = null;
-            $.fn.tipsy.elementOptions = function(ele, options) {
-                return $.extend({}, options, {gravity: $(ele).attr('data-tipsy-gravity') || options.gravity });
-            };
         // build:js scripts/index.min.js
         script(src="scripts/google.maps.popover.js")
         script(src="scripts/jquery.yql.js")
