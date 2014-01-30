@@ -1,0 +1,5 @@
+{
+    "name": "microplugin",
+    "description": "A lightweight plugin / dependency system for libraries",
+    "version": "0.0.3"
+}

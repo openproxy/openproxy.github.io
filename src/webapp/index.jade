@@ -5,7 +5,6 @@ html(lang="en", manifest="cache.manifest", class="no-js")
         title Open Proxy
         meta(name="viewport", content="initial-scale=1.0, user-scalable=no")
         meta(name="description", content="World of open proxies on Google Maps")
-        // todo: prevent stylesheets from being loaded unless js is enabled
         //[if !IE]>
         link(rel="stylesheet", href="thirdparty/github-fork-ribbon-css/gh-fork-ribbon.css")
         link(rel="stylesheet", href="thirdparty/selectize/selectize.css")
@@ -78,15 +77,19 @@ html(lang="en", manifest="cache.manifest", class="no-js")
             $.fn.tipsy.elementOptions = function(ele, options) {
                 return $.extend({}, options, {gravity: $(ele).attr('data-tipsy-gravity') || options.gravity });
             };
-        script(src="//cdnjs.cloudflare.com/ajax/libs/spin.js/1.3.2/spin.min.js")
+        script(src="thirdparty/microplugin/microplugin.js")
+        script(src="thirdparty/sifter/sifter.js")
+        script(src="//cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/js/selectize.min.js")
         script.
-            window.Spinner || document.write('<script src="thirdparty/spin/spin.js"><\/script>')
-        script(src="thirdparty/selectize/selectize.js")
+            window.Selectize || document.write('<script src="thirdparty/selectize/selectize.js"><\/script>')
         script(src="//cdn.jsdelivr.net/zeroclipboard/1.2.2/ZeroClipboard.min.js")
         script.
             window.ZeroClipboard || document.write('<script src="thirdparty/zeroclipboard/zeroclipboard.js"><\/script>')
         script.
             ZeroClipboard.setDefaults({moviePath: 'thirdparty/zeroclipboard/zeroclipboard.swf'});
+        script(src="//cdnjs.cloudflare.com/ajax/libs/spin.js/1.3.2/spin.min.js")
+        script.
+            window.Spinner || document.write('<script src="thirdparty/spin/spin.js"><\/script>')
         // build:js scripts/index.min.js
         script(src="scripts/google.maps.popover.js")
         script(src="scripts/jquery.yql.js")
