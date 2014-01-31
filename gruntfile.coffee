@@ -112,8 +112,6 @@ lato/v6/0DeoTBMnW4sOpD0Zb8OQSALUuEpTyoUstqEm5AMlJo4.ttf'
             html: '<%= project.distribution %>/index.html'
         uglify:
             thirdparty:
-                options:
-                    mangle: false
                 files: [
                     expand: true
                     cwd: '<%= project.distribution %>/thirdparty'
