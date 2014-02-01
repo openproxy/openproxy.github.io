@@ -1,9 +1,3 @@
-###
-    Copyright (c) 2013 Stanley Shyiko
-    Licensed under the MIT license.
-    https://github.com/openproxy/openproxy.github.io
-###
-
 if window.applicationCache
     deferredUpdateReady = new $.Deferred()
     window.applicationCache.addEventListener 'updateready', deferredUpdateReady.resolve
