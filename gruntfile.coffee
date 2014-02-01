@@ -43,13 +43,21 @@ module.exports = (grunt) ->
                         return "#{dest}/#{filename.substring(0, filename.lastIndexOf('.'))}.css"
                 ]
         jade:
-            compile:
+            index:
                 options:
                     pretty: true
                     data:
                         debug: false
                 files:
                     '<%= project.transient %>/index.html': '<%= project.source %>/index.jade'
+            jst:
+                options:
+                    client: true
+                    compileDebug: false
+                    processName: (filename) ->
+                        return filename.substring(filename.lastIndexOf('/') + 1, filename.lastIndexOf('.'))
+                files:
+                    '<%= project.transient %>/scripts/jst.js': '<%= project.source %>/templates/*.jade'
         manifest:
             options:
                 cache: [
@@ -84,9 +92,12 @@ lato/v6/0DeoTBMnW4sOpD0Zb8OQSALUuEpTyoUstqEm5AMlJo4.ttf'
             stylus:
                 files: '<%= project.source %>/stylesheets/*.styl'
                 tasks: ['stylus:compile', 'manifest:transient']
-            jade:
-                files: '<%= project.source %>/*.jade'
-                tasks: ['jade:compile', 'manifest:transient']
+            'jade/index':
+                files: '<%= project.source %>/index.jade'
+                tasks: ['jade:index', 'manifest:transient']
+            'jade/jst':
+                files: '<%= project.source %>/templates/*.jade'
+                tasks: ['jade:jst', 'manifest:transient']
         connect:
             server:
                 options:
@@ -177,7 +188,7 @@ lato/v6/0DeoTBMnW4sOpD0Zb8OQSALUuEpTyoUstqEm5AMlJo4.ttf'
         get('pkg').devDependencies when task.indexOf('grunt-') is 0
 
     grunt.registerTask 'lint', ['coffeelint']
-    grunt.registerTask 'compile', ['coffee:compile', 'stylus:compile', 'jade:compile']
+    grunt.registerTask 'compile', ['coffee:compile', 'stylus:compile', 'jade']
     grunt.registerTask 'min', ['copy', 'useminPrepare', 'concat', 'uglify', 'cssmin', 'usemin', 'htmlmin']
 
     grunt.registerTask 'default', ['clean', 'lint', 'compile', 'manifest:transient', 'connect:server', 'watch']

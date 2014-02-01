@@ -33,42 +33,6 @@ html(lang="en", manifest="cache.manifest", class="no-js")
             .unsupported-env.
                 Open Proxy requires JavaScript to be enabled.<br/>
                 Here are the <a href="http://www.enable-javascript.com/" target="_blank">instructions how to enable JavaScript in your web browser</a>.
-        script#application-template(type="text/template")
-            .bb-container
-                .bb.bb-compact
-                    .logo OpenProxy
-                .bb
-                    | World of open proxies on Google Maps
-                    .hint (click on any country to get a list)
-                #toolbar.bb
-                    a(href="https://github.com/openproxy/openproxy-chrome-extension",
-                    title="OpenProxy Chrome Extension",
-                    data-tipsy-gravity="nw").icon
-                        i.icon-chrome
-            .github-fork-ribbon-wrapper.right
-                .github-fork-ribbon
-                    a(href="https://github.com/openproxy/openproxy.github.io") Fork me on GitHub
-            #map-container
-        script#application-recovery-template(type="text/template")
-            .vhc-container
-                .vhc
-                    #recovery-container
-                        .logo OpenProxy
-                        .hint (offline mode)
-                        div(style="margin-top: 12px; margin-bottom: 12px").
-                            OpenProxy was unable to load Google Maps. Please check your Internet connection.
-                        .hint
-                            | If you think this is a mistake,<br/> please let us know through&nbsp;
-                            a(href="https://github.com/openproxy/openproxy.github.io/issues") Github issue tracker
-                            |.
-        script#application-chrome-recovery-template(type="text/template")
-            .vhc-container
-                .vhc
-                    #recovery-container
-                        .logo OpenProxy
-                        .hint (recovery mode)
-                        a#reset-btn(href="javascript:void(0)", title="Clear Proxy Settings").icon
-                            i.icon-unlink
         script(src="//maps.googleapis.com/maps/api/js?v=3.13&sensor=false&key=AIzaSyBkXBtlu9jmRQaY71s3rAtSXggtgjwgBSA")
         script(src="thirdparty/jquery/jquery.js")
         script(src="thirdparty/jquery-tipsy/jquery.tipsy.js")
@@ -102,6 +66,7 @@ html(lang="en", manifest="cache.manifest", class="no-js")
         script(src="scripts/unobtrusive.notify.js")
         script(src="scripts/openproxy.js")
         script(src="scripts/openproxy.chrome.plugin.js")
+        script(src="scripts/jst.js")
         script(src="scripts/index.js")
         // endbuild
         script.
