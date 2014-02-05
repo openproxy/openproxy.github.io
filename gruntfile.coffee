@@ -172,6 +172,7 @@ lato/v6/0DeoTBMnW4sOpD0Zb8OQSALUuEpTyoUstqEm5AMlJo4.ttf'
             options:
                 commitMessage: 'v%VERSION%'
                 tagMessage: 'v%VERSION%'
+                pushTo: 'origin'
         deploy:
             options:
                 sourceDirectory: '<%= project.distribution %>'
