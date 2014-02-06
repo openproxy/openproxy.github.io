@@ -66,7 +66,7 @@ OpenProxy.define 'chrome', ->
                     messageBody.whitelist = value.split(',') if value
                     value = $popover.find('#excluded-hosts').val()
                     messageBody.blacklist = value.split(',') if value
-                    window.postMessage(type: "OP_PROXY_ON", body: messageBody, "*")
+                window.postMessage(type: "OP_PROXY_ON", body: messageBody, "*")
                 $button.text('Activated')
                 unless resetButtonHasBeenShown
                     resetButtonHasBeenShown = true
