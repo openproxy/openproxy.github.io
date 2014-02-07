@@ -1,11 +1,11 @@
-Selectize.define 'persistent_value', ->
-    return unless window.localStorage
+Selectize.define 'maintain_value', (options) ->
+    storage = options.storage or window.localStorage
+    return unless storage
 
-    storage = window.localStorage
     key = 'selectize-#' + this.$input.attr('id') or throw new Error '"id" is required'
     @setup = do (originalSetup = @setup) -> ->
         @on 'change', (value) ->
-            localStorage.setItem(key, value)
+            storage.setItem(key, value)
         originalSetup.apply(@, arguments)
         valueFromLocalStorage = storage.getItem(key)
         if valueFromLocalStorage

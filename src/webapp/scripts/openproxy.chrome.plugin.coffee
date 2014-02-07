@@ -7,6 +7,8 @@ OpenProxy.define 'chrome', ->
 
     chromeExtensionDeferred.done =>
 
+        storage = window.localStorage
+
         unless window.google
             @$el.html(JST['openproxy.chrome.plugin.recovery']())
             @$el.find('#reset-btn').tipsy().on 'click', (e) ->
@@ -78,11 +80,17 @@ OpenProxy.define 'chrome', ->
             $popover.on 'click', '#advanced-options-toggle', (e) ->
                 $target = $(e.currentTarget)
                 $options = $popover.find('#advanced-options')
-                $target.text("(#{if $options.is(':visible') then 'show' else 'hide'} advanced options)")
+                optionsVisible = $options.is(':visible')
+                $target.text("(#{if optionsVisible then 'show' else 'hide'} advanced options)")
+                if storage
+                    if optionsVisible
+                        storage.removeItem('advanced-options-visibility')
+                    else
+                        storage.setItem('advanced-options-visibility', 'visible')
                 enableActivationButton()
                 $options.toggle()
             selectizeOptions =
-                plugins: ['persistent_value'],
+                plugins: ['maintain_value'],
                 persist: false,
                 create: (input) ->
                     value: input, text: input
@@ -96,4 +104,7 @@ OpenProxy.define 'chrome', ->
                 excludedHosts.on 'change', onHostsChange(includedHosts)
                 for input in [includedHosts, excludedHosts]
                     input.trigger('change', input.$input.val())
+                if storage and storage.getItem('advanced-options-visibility') is 'visible'
+                    $popover.find('#advanced-options').show()
+                    $popover.find('#advanced-options-toggle').text("(hide advanced options)")
             @customizePopover()
