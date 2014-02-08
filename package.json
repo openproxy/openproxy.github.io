@@ -1,7 +1,7 @@
 {
     "name": "openproxy.github.io",
     "description": "World of open proxies on Google Maps",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "author": "Stanley Shyiko <stanley.shyiko@gmail.com>",
     "license": "MIT",
     "repository": {
