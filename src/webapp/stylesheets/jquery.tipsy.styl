@@ -1,21 +1,21 @@
 .tipsy
-    font-size: 12px
     position: absolute
-    padding: 5px
     z-index: 100000
+    padding: 5px
+    font-size: 12px
     pointer-events: none
 
 .tipsy-inner
-    background-color: #383838
-    color: #fff
     max-width: 200px
     padding: 8px 10px
-    text-align: center
     line-height: 12px
-    border-radius: 0
-    -moz-border-radius: 0
+    color: #fff
+    text-align: center
+    text-shadow: 0 -1px 0 black
+    background-color: #383838
     -webkit-border-radius: 0
-    text-shadow: 0 -1px 0px black
+    -moz-border-radius: 0
+    border-radius: 0
     box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.3)
 
 .tipsy-arrow
@@ -39,10 +39,10 @@
 
 .tipsy-n .tipsy-arrow, .tipsy-nw .tipsy-arrow, .tipsy-ne .tipsy-arrow
     top: 0
-    border-bottom-style: solid
     border-top: none
-    border-left-color: transparent
     border-right-color: transparent
+    border-left-color: transparent
+    border-bottom-style: solid
 
 .tipsy-n .tipsy-arrow
     left: 50%
@@ -56,10 +56,10 @@
 
 .tipsy-s .tipsy-arrow, .tipsy-sw .tipsy-arrow, .tipsy-se .tipsy-arrow
     bottom: 0
-    border-top-style: solid
     border-bottom: none
-    border-left-color: transparent
     border-right-color: transparent
+    border-left-color: transparent
+    border-top-style: solid
 
 .tipsy-s .tipsy-arrow
     left: 50%
@@ -72,22 +72,22 @@
     right: 10px
 
 .tipsy-e .tipsy-arrow
-    right: 0
     top: 50%
+    right: 0
     margin-top: -5px
-    border-left-style: solid
     border-right: none
     border-top-color: transparent
     border-bottom-color: transparent
+    border-left-style: solid
 
 .tipsy-w .tipsy-arrow
-    left: 0
     top: 50%
+    left: 0
     margin-top: -5px
-    border-right-style: solid
     border-left: none
     border-top-color: transparent
     border-bottom-color: transparent
+    border-right-style: solid
 
 // fadeIn/fadeOut animation follows:
 // NOTE: for "opacity" changing animation to work make sure window.jQuery.fn.tipsy.defaults.opacity is set to null
@@ -96,10 +96,7 @@
     opacity: 0
 
 .tipsy-n, .tipsy-nw, .tipsy-ne, .tipsy-s, .tipsy-sw, .tipsy-se, .tipsy-e, .tipsy-w
+    opacity: 1
     -webkit-transition: opacity 0.3s ease
     -moz-transition: opacity 0.3s ease
     transition: opacity 0.3s ease
-    opacity: 1;
-
-
-
