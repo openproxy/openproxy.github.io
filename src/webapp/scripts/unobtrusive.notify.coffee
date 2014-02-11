@@ -3,7 +3,7 @@ class UNotify # u stands for unobtrusive
     constructor: (options) ->
         @$el = $("<div class='unotify' style='display: none'></div>")
         @$el.appendTo('body')
-        @_autoHideTimeout = 7000
+        @_autoHideTimeout = 8000
         @content options.content if options?.content?
 
     show: ->
