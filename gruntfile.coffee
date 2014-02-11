@@ -66,6 +66,7 @@ module.exports = (grunt) ->
                     'thirdparty/jquery/jquery.js'
                     'thirdparty/jquery-tipsy/jquery.tipsy.js'
                     'thirdparty/microplugin/microplugin.js'
+                    'thirdparty/semver/semver.js'
                     'thirdparty/fontello.font/fontello.ttf?57755967'
                     'http://themes.googleusercontent.com/static/fonts/
 raleway/v6/UAnF6lSK1JNc1tqTiG8pNALUuEpTyoUstqEm5AMlJo4.ttf'

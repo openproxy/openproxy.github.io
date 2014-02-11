@@ -1,0 +1,5 @@
+{
+    "name": "semver",
+    "description": "The semver parser for browser",
+    "version": "2.2.1"
+}

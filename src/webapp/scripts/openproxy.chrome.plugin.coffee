@@ -1,11 +1,16 @@
 chromeExtensionDeferred = new $.Deferred()
 window.addEventListener 'message', (event) ->
     if event.data.type is 'OP_CHROME_EXTENSION_INITIALIZED'
-        chromeExtensionDeferred.resolve()
+        chromeExtensionDeferred.resolve(event.data.body.version)
 
 OpenProxy.define 'chrome', ->
 
-    chromeExtensionDeferred.done =>
+    chromeExtensionDeferred.done (version) =>
+        minVersion = '0.2.0'
+        if semver.lt(version, minVersion)
+            @notify "OpenProxy Chrome Extension needs to be updated to version #{minVersion} or greater.<br/>
+Click <a href='https://github.com/openproxy/openproxy-chrome-extension'>here<a/> for the instructions."
+            return
 
         storage = window.localStorage
 
