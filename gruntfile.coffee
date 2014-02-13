@@ -207,6 +207,8 @@ lato/v6/0DeoTBMnW4sOpD0Zb8OQSALUuEpTyoUstqEm5AMlJo4.ttf'
         options = this.options()
         sourceDirectory = path.resolve options.sourceDirectory
         checkoutDirectory = options.checkoutDirectory || (new tmp.Dir()).path
+        commitMessage = options.commitMessage
+        commitMessage = commitMessage() if typeof(commitMessage) is 'function'
         shell.config.fatal = true
         grunt.log.writeln "Preparing #{checkoutDirectory} to be used as a checkout directory"
         shell.rm '-rf', checkoutDirectory
@@ -218,9 +220,7 @@ lato/v6/0DeoTBMnW4sOpD0Zb8OQSALUuEpTyoUstqEm5AMlJo4.ttf'
         grunt.log.writeln "Overlaying with #{sourceDirectory}"
         shell.cp '-r', "#{sourceDirectory}/*", './'
         shell.exec 'git add --all'
-        message = options.commitMessage
-        message = message() if typeof(message) is 'function'
-        shell.exec "git commit -m '#{message}'"
+        shell.exec "git commit -m '#{commitMessage}'"
         if grunt.option('push') is true
             grunt.log.writeln "Performing push to #{options.repositoryURL}"
             shell.exec 'git push'
