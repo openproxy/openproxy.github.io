@@ -1,4 +1,4 @@
-Selectize.define 'load_more', (options) ->
+Selectize?.define 'load_more', (options) ->
 
     options = $.extend
         loadTemplate: 'load more'

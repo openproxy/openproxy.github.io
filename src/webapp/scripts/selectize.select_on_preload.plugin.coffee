@@ -1,4 +1,4 @@
-Selectize.define 'select_on_preload', ->
+Selectize?.define 'select_on_preload', ->
     return unless this.settings.preload
 
     originalOnSearchChange = @onSearchChange

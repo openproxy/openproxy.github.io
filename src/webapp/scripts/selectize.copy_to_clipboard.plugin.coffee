@@ -1,4 +1,4 @@
-Selectize.define 'copy_to_clipboard', ->
+Selectize?.define 'copy_to_clipboard', ->
     return unless ZeroClipboard.detectFlashSupport()
 
     clipboard = new ZeroClipboard()

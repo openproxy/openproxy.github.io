@@ -1,4 +1,4 @@
-Selectize.define 'maintain_value', (options) ->
+Selectize?.define 'maintain_value', (options) ->
     storage = options.storage or window.localStorage
     return unless storage
 
