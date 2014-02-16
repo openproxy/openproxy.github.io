@@ -15,7 +15,7 @@ Selectize?.define 'copy_to_clipboard', ->
                 #{data.text}
                 <a class='copy-to-clipboard-button' tabindex='-1' href='javascript:void(0)'
                    title='Copy To Clipboard' data-clipboard-text='#{data.text}'>
-                    <i class='icon-clipboard'></i>
+                    <i class='fontello-icon icon-clipboard'></i>
                 </a>
             </div>
             "

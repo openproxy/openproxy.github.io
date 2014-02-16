@@ -31,7 +31,7 @@ Click <a href='https://github.com/openproxy/openproxy-chrome-extension'>here<a/>
 <span style="display: none">
     <span class="bb-divider"></span>
     <a id="reset-btn" class="icon" title="Clear Proxy Settings" href="javascript:void(0)" data-tipsy-gravity="nw">
-        <i class="icon-unlink"></i>
+        <i class="fontello-icon icon-unlink"></i>
     </a>
 </span>
             ''').appendTo($toolbar).fadeIn().find('#reset-btn').tipsy().on 'click', (e) ->

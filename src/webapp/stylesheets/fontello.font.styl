@@ -4,32 +4,34 @@
     font-weight: normal
     font-style: normal
 
-[class^="icon-"]:before, [class*=" icon-"]:before
-    display: inline-block
-    width: 1em
-    margin-right: .2em
-    margin-left: .2em
-    font-family: "Fontello"
-    font-style: normal
-    font-weight: normal
-    line-height: 1em
-    text-align: center
-    text-decoration: inherit
-    text-transform: none
-    speak: none
-    font-variant: normal
+.fontello-icon
 
-.icon-firefox:before
-    content: '\e800'
+    &:before
+        display: inline-block
+        width: 1em
+        margin-right: .2em
+        margin-left: .2em
+        font-family: "Fontello"
+        font-style: normal
+        font-weight: normal
+        line-height: 1em
+        text-align: center
+        text-decoration: inherit
+        text-transform: none
+        speak: none
+        font-variant: normal
 
-.icon-chrome:before
-    content: '\e801'
+    &.icon-firefox:before
+        content: '\e800'
 
-.icon-link:before
-    content: '\e803'
+    &.icon-chrome:before
+        content: '\e801'
 
-.icon-unlink:before
-    content: '\e804'
+    &.icon-link:before
+        content: '\e803'
 
-.icon-clipboard:before
-    content: '\e802'
+    &.icon-unlink:before
+        content: '\e804'
+
+    &.icon-clipboard:before
+        content: '\e802'
