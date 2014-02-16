@@ -67,12 +67,16 @@ Click <a href='https://github.com/openproxy/openproxy-chrome-extension'>here<a/>
                 return unless split.length is 2
                 $button = $(e.target)
                 $button.prop('disabled', true)
-                messageBody = {host: split[0], port: parseInt(split[1], 10)}
+                messageBody =
+                    host: split[0],
+                    port: parseInt(split[1], 10),
+                    whitelist: []
+                    blacklist: ['openproxy.github.io']
                 if $popover.find('#advanced-options').is(':visible')
                     value = $popover.find('#included-hosts').val()
-                    messageBody.whitelist = value.split(',') if value
+                    Array::push.apply(messageBody.whitelist, value.split(',')) if value
                     value = $popover.find('#excluded-hosts').val()
-                    messageBody.blacklist = value.split(',') if value
+                    Array::push.apply(messageBody.blacklist, value.split(',')) if value
                 window.postMessage(type: "OP_PROXY_ON", body: messageBody, "*")
                 $button.text('Activated')
                 unless resetButtonHasBeenShown
@@ -99,7 +103,8 @@ Click <a href='https://github.com/openproxy/openproxy-chrome-extension'>here<a/>
                 persist: false,
                 create: (input) ->
                     value: input, text: input
-            @customizePopover = ->
+
+            do @customizePopover = ->
                 [includedHosts, excludedHosts] = (for selector in ['#included-hosts', '#excluded-hosts']
                     $popover.find(selector).selectize(selectizeOptions)[0].selectize)
                 onHostsChange = (target) -> ->
@@ -112,4 +117,3 @@ Click <a href='https://github.com/openproxy/openproxy-chrome-extension'>here<a/>
                 if storage and storage.getItem('advanced-options-visibility') is 'visible'
                     $popover.find('#advanced-options').show()
                     $popover.find('#advanced-options-toggle').text("(hide advanced options)")
-            @customizePopover()
