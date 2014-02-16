@@ -6,7 +6,7 @@ window.addEventListener 'message', (event) ->
 OpenProxy.define 'chrome', ->
 
     chromeExtensionDeferred.done (version) =>
-        minVersion = '0.2.0'
+        minVersion = '0.3.0'
         if semver.lt(version, minVersion)
             @notify "OpenProxy Chrome Extension needs to be updated to version #{minVersion} or greater.<br/>
 Click <a href='https://github.com/openproxy/openproxy-chrome-extension'>here<a/> for the instructions."
