@@ -41,9 +41,14 @@
 #recovery-container
     #reset-btn
         font-size: 12em
+        @media (max-width: 480px)
+            font-size: 10em
         color: #cdcdcd
         text-shadow: 0 1px 1px #aaa
         &:hover
             color: darken(#cdcdcd, 5%)
         &:active
             color: darken(#cdcdcd, 10%)
+        .fontello-icon:before
+            margin-left: 0
+            margin-right: 0
