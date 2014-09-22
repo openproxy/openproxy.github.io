@@ -105,6 +105,7 @@ Click <a href='https://github.com/openproxy/openproxy-chrome-extension'>here<a/>
                     value: input, text: input
 
             do @customizePopover = ->
+                return unless $popover.find('#btn-activate').length
                 [includedHosts, excludedHosts] = (for selector in ['#included-hosts', '#excluded-hosts']
                     $popover.find(selector).selectize(selectizeOptions)[0].selectize)
                 onHostsChange = (target) -> ->
